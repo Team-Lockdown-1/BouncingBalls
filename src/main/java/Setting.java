@@ -18,7 +18,12 @@ public class Setting extends Application {
     private static Stage guiStage;
 
     public static Stage getStage() {
+        Stage guiStage = new Stage();
         return guiStage;
+    }
+
+    public static void cancelLogin() {
+        guiStage.close();
     }
     public static HBox getVBox(){
 
@@ -225,6 +230,9 @@ public class Setting extends Application {
         Button amsterdam = new Button("");
         Button newyork = new Button("");
         Button platzhalter = new Button("");
+        //amsterdam.setStyle("-fx-border-color: black;");
+        //amsterdam.setStyle("-fx-background-image: url('resources/amsterdam.jpg')");
+
 
         firstHBox.getChildren().add(wien);
         firstHBox.getChildren().add(haus);
@@ -271,7 +279,12 @@ public class Setting extends Application {
                 stage.close();
             }
         });
+        wien.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
 
+            }
+        });
 
 
         //return
