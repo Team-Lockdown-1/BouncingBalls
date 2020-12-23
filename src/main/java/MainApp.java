@@ -10,7 +10,22 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.HashMap;
+
 public class MainApp extends Application {
+    public static HashMap list = new HashMap();
+    static{
+        list.put("bälle","100");
+        list.put("geschwind", "Langsam");
+        list.put("infi", "1 Treffer");
+        list.put("genesung", "30");
+        list.put("background","wien");
+
+    }
+    public static void saveData(String x, String y){
+        list.put(x,y);
+        System.out.println(list);
+    }
     public static void main(String[] args) {
         launch(args);
     }

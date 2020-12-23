@@ -3,15 +3,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.Arrays;
 
-import java.util.HashMap;
 
 //scene muss in 800x600 erstellt werden.
 public class Setting extends Application {
@@ -224,15 +221,12 @@ public class Setting extends Application {
         rightMainBox.getChildren().add(thirdHBox);
 
         // Button erstellen & hinzufügen
-        Button wien = new Button("");
-        Button haus = new Button("");
-        Button venedig = new Button("");
-        Button amsterdam = new Button("");
-        Button newyork = new Button("");
-        Button platzhalter = new Button("");
-        //amsterdam.setStyle("-fx-border-color: black;");
-        //amsterdam.setStyle("-fx-background-image: url('resources/amsterdam.jpg')");
-
+        Button wien = new Button("wien");
+        Button haus = new Button("haus");
+        Button venedig = new Button("venedig");
+        Button amsterdam = new Button("amsterdam");
+        Button newyork = new Button("newyork");
+        Button platzhalter = new Button("platzhalter");
 
         firstHBox.getChildren().add(wien);
         firstHBox.getChildren().add(haus);
@@ -265,36 +259,133 @@ public class Setting extends Application {
         //------------------------------------------------------------------------------------------
         //---------------------------Funktionen-----------------------------------------------------
         //------------------------------------------------------------------------------------------
-        HashMap<String, String> list = new HashMap<>();
 
+        //----------Radiobutton preselection--------------------------------------------------------
+        for(ToggleButton x : Arrays.asList(einHundert,zweiHundert,dreiHundert,vierHundert)){
+            if(MainApp.list.get("bälle").equals(x.getText())){
+                x.setSelected(true);
+            }
+        }
+        for(ToggleButton x : Arrays.asList(langsam,mittel,schnell)){
+            if(MainApp.list.get("geschwind").equals(x.getText())){
+                x.setSelected(true);
+            }
+        }
+        for(ToggleButton x : Arrays.asList(treffer1,treffer2,treffer4)){
+            if(MainApp.list.get("infi").equals(x.getText())){
+                x.setSelected(true);
+            }
+        }
+        for(ToggleButton x : Arrays.asList(h30,h60,h120)){
+            if(MainApp.list.get("genesung").equals(x.getText())){
+                x.setSelected(true);
+            }
+        }
+        /*
+        if(Main.list.get("bälle").equals("100")){
+            einHundert.setSelected(true);
+        }else if(Main.list.get("bälle").equals("200")){
+            zweiHundert.setSelected(true);
+        }else if(Main.list.get("bälle").equals("300")){
+            dreiHundert.setSelected(true);
+        }else if(Main.list.get("bälle").equals("400")){
+            vierHundert.setSelected(true);
+        }
+
+        if(Main.list.get("geschwind").equals("Langsam")){
+            langsam.setSelected(true);
+        }else if(Main.list.get("geschwind").equals("Mittel")){
+            mittel.setSelected(true);
+        }else if(Main.list.get("geschwind").equals("Schnell")){
+            schnell.setSelected(true);
+        }
+
+        if(Main.list.get("infi").equals("1 Treffer")){
+            treffer1.setSelected(true);
+        }else if(Main.list.get("infi").equals("2 Treffer")){
+            treffer2.setSelected(true);
+        }else if(Main.list.get("infi").equals("4 Treffer")){
+            treffer4.setSelected(true);
+        }
+
+        if(Main.list.get("genesung").equals("30")){
+            h30.setSelected(true);
+        }else if(Main.list.get("genesung").equals("60")){
+            h60.setSelected(true);
+        }else if(Main.list.get("genesung").equals("120")){
+            h120.setSelected(true);
+        }
+        */
+//------------------------------------------------------------------------------------------------------------
+
+        for(Button x : Arrays.asList(wien,amsterdam,haus,venedig,newyork,platzhalter)){
+            x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg')" );
+        }
+        for(Button x : Arrays.asList(wien,amsterdam,haus,venedig,newyork,platzhalter)){
+            if(MainApp.list.get("background").equals(x.getText())){
+                x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg')");
+            }
+        }
+        /*
+        if(Main.list.get("background").equals("wien")){
+            wien.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
+        }else if(Main.list.get("background").equals("amsterdam")){
+            amsterdam.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
+        }else if(Main.list.get("background").equals("haus")){
+            haus.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
+        }else if(Main.list.get("background").equals("venedig")){
+            venedig.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
+        }else if(Main.list.get("background").equals("newyork")){
+            newyork.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
+        }else if(Main.list.get("background").equals("platzhalter")){
+            platzhalter.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
+        }
+*/
+
+
+//-------------Button click functions------------------------------------------------------------------------
         speichern.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                list.put("bälle", ""+bälle.getSelectedToggle());
-                list.put("geschwindigkeit", ""+geschwind.getSelectedToggle());
-                list.put("infizierte", ""+infi.getSelectedToggle());
-                list.put("heilung", ""+genesung.getSelectedToggle());
-                System.out.println(list);
                 Stage stage = (Stage) speichern.getScene().getWindow();
                 stage.close();
-            }
-        });
-        wien.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+
+                //Daten werden in die Hashmap gespeichert
+                //benötigt man damit man nur den Wert des radiobuttons zu speichern
+                RadioButton selectedRadioButtonBälle = (RadioButton) bälle.getSelectedToggle();
+                String a = selectedRadioButtonBälle.getText();
+                RadioButton selectedRadioButtonGeschwind = (RadioButton) geschwind.getSelectedToggle();
+                String b = selectedRadioButtonGeschwind.getText();
+                RadioButton selectedRadioButtonInfi = (RadioButton) infi.getSelectedToggle();
+                String c = selectedRadioButtonInfi.getText();
+                RadioButton selectedRadioButtonGenesung = (RadioButton) genesung.getSelectedToggle();
+                String d = selectedRadioButtonGenesung.getText();
+                MainApp.saveData("bälle",a);
+                MainApp.saveData("geschwind",b);
+                MainApp.saveData("infi",c);
+                MainApp.saveData("genesung",d);
 
             }
         });
 
+        for(Button x : Arrays.asList(wien,amsterdam,haus,venedig,newyork,platzhalter)){
+            x.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    for(Button x : Arrays.asList(wien,amsterdam,haus,venedig,newyork,platzhalter)){
+                        x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg')" );
+                    }
+                    x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg')" );
+                    MainApp.list.put("background",x.getText());
+                }
+            });
+        }
 
         //return
         return mainBox;
     }
-
     @Override
     public void start(Stage primaryStage) {
         guiStage = primaryStage;
-
-
     }
 }
