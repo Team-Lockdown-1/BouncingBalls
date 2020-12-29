@@ -1,3 +1,4 @@
+import com.sun.tools.javac.Main;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -173,14 +174,14 @@ public class Setting extends Application {
          */
 
         //Gruppen für radio buttons
-        ToggleGroup bälle = new ToggleGroup();
+        ToggleGroup baelle = new ToggleGroup();
         ToggleGroup geschwind = new ToggleGroup();
         ToggleGroup infi = new ToggleGroup();
         ToggleGroup genesung = new ToggleGroup();
 
         //Radio button groups - bälle
         for(RadioButton x : Arrays.asList(einHundert,zweiHundert,dreiHundert,vierHundert)){
-            x.setToggleGroup(bälle);
+            x.setToggleGroup(baelle);
         }
         /*
         einHundert.setToggleGroup(bälle);
@@ -364,37 +365,43 @@ public class Setting extends Application {
         //------------------------------------------------------------------------------------------
 
         //----------Radiobutton preselection--------------------------------------------------------
-        /*for(ToggleButton x : Arrays.asList(einHundert,zweiHundert,dreiHundert,vierHundert)){
-            if(MainApp.list.get("bälle").equals(x.getText())){
+        for(ToggleButton x : Arrays.asList(einHundert,zweiHundert,dreiHundert,vierHundert)){
+            if(HomeScreen.balls == Integer.parseInt(x.getText())){
                 x.setSelected(true);
             }
-        }
-        for(ToggleButton x : Arrays.asList(langsam,mittel,schnell)){
-            if(MainApp.list.get("geschwind").equals(x.getText())){
-                x.setSelected(true);
-            }
-        }
-        for(ToggleButton x : Arrays.asList(treffer1,treffer2,treffer4)){
-            if(MainApp.list.get("infi").equals(x.getText())){
-                x.setSelected(true);
-            }
-        }
-        for(ToggleButton x : Arrays.asList(h30,h60,h120)){
-            if(MainApp.list.get("genesung").equals(x.getText())){
-                x.setSelected(true);
-            }
-        }*/
-        /*
-        if(Main.list.get("bälle").equals("100")){
-            einHundert.setSelected(true);
-        }else if(Main.list.get("bälle").equals("200")){
-            zweiHundert.setSelected(true);
-        }else if(Main.list.get("bälle").equals("300")){
-            dreiHundert.setSelected(true);
-        }else if(Main.list.get("bälle").equals("400")){
-            vierHundert.setSelected(true);
         }
 
+        for(ToggleButton x : Arrays.asList(langsam,mittel,schnell)){
+            if(HomeScreen.getSpeed().equals(x.getText())){
+                x.setSelected(true);
+            }
+        }
+
+        for(ToggleButton x : Arrays.asList(treffer1,treffer2,treffer4)){
+            String string = x.getText();
+            string = string.substring(0,1);
+            int hits = Integer.parseInt(string);
+            if(HomeScreen.hits == hits){
+                x.setSelected(true);
+            }
+        }
+
+        for(ToggleButton x : Arrays.asList(h30,h60,h120)){
+            if(HomeScreen.heal == Integer.parseInt(x.getText())){
+                x.setSelected(true);
+            }
+        }
+/*
+        if(HomeScreen.balls == 10){
+            einHundert.setSelected(true);
+        }else if(HomeScreen.balls == 20){
+            zweiHundert.setSelected(true);
+        }else if(HomeScreen.balls == 30){
+            dreiHundert.setSelected(true);
+        }else if(HomeScreen.balls == 40){
+            vierHundert.setSelected(true);
+        }
+/*
         if(Main.list.get("geschwind").equals("Langsam")){
             langsam.setSelected(true);
         }else if(Main.list.get("geschwind").equals("Mittel")){
@@ -424,12 +431,12 @@ public class Setting extends Application {
         for(Button x : Arrays.asList(wien,amsterdam,haus,venedig,newyork,platzhalter)){
             x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg');" + "-fx-text-fill: transparent;" );
         }
-        /*
-        for(Button x : Arrays.asList(wien,amsterdam,haus,venedig,newyork,platzhalter)){
-            if(MainApp.list.get("background").equals(x.getText())){
-                x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg')");
+
+        for(Button x : Arrays.asList(wien,amsterdam,haus,venedig,newyork,platzhalter)) {
+            if (HomeScreen.background.equals(x.getText())) {
+                x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('picture/amsterdam.jpg');" + "-fx-text-fill: transparent;");
             }
-        }*
+        }
         /*
         if(Main.list.get("background").equals("wien")){
             wien.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
@@ -456,14 +463,18 @@ public class Setting extends Application {
 
                 //Daten werden in die Hashmap gespeichert
                 //benötigt man damit man nur den Wert des radiobuttons zu speichern
-                RadioButton selectedRadioButtonBälle = (RadioButton) bälle.getSelectedToggle();
-                String a = selectedRadioButtonBälle.getText();
+                RadioButton selectedRadioButtonBälle = (RadioButton) baelle.getSelectedToggle();
                 RadioButton selectedRadioButtonGeschwind = (RadioButton) geschwind.getSelectedToggle();
-                String b = selectedRadioButtonGeschwind.getText();
                 RadioButton selectedRadioButtonInfi = (RadioButton) infi.getSelectedToggle();
-                String c = selectedRadioButtonInfi.getText();
                 RadioButton selectedRadioButtonGenesung = (RadioButton) genesung.getSelectedToggle();
-                String d = selectedRadioButtonGenesung.getText();
+
+
+
+                HomeScreen.setBalls(Integer.parseInt(selectedRadioButtonBälle.getText()));
+                HomeScreen.setSpeed(selectedRadioButtonGeschwind.getText());
+                HomeScreen.setHits(Integer.parseInt(selectedRadioButtonInfi.getText().substring(0,1)));
+                HomeScreen.setHeal(Integer.parseInt(selectedRadioButtonGenesung.getText()));
+
                 /*MainApp.saveData("bälle",a);
                 MainApp.saveData("geschwind",b);
                 MainApp.saveData("infi",c);
@@ -480,7 +491,7 @@ public class Setting extends Application {
                         x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg');" + "-fx-text-fill: transparent;");
                     }
                     x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg');" + "-fx-text-fill: transparent;");
-                    /*MainApp.list.put("background",x.getText());*/
+                    HomeScreen.setBackground(""+x.getText());
                 }
             });
         }
