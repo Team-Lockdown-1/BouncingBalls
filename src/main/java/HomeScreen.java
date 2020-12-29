@@ -28,9 +28,9 @@ public class HomeScreen extends Application {
         System.out.println(balls);
     }
     public static void setSpeed(String x){
-        if(x == "Langsam"){
+        if(x.equals("Langsam")){
             speed = 3;
-        }else if(x == "Mittel"){
+        }else if(x.equals("Mittel")){
             speed = 6;
         }else{
             speed = 9;
