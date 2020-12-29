@@ -11,11 +11,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class Start extends Application {
+
+    static Stage classStage = new Stage();
+
     private List<BouncingBall> balls = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -24,13 +25,13 @@ public class Start extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
+        classStage = stage;
         //Make the Scene and the Canvas
         Pane root = new Pane();
         Scene scene = new Scene(root, HomeScreen.WINDOW_WIDTH, HomeScreen.WINDOW_HEIGHT, Color.BLACK);
         Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
+        gc.setFill(Color.BLACK);
         root.getChildren().add(canvas);
 
         //On ESC pressed go back to HomeScreen
@@ -38,6 +39,12 @@ public class Start extends Application {
             if (event.getCode() == KeyCode.ESCAPE) {
                 //TODO exit the Scene back to Main MENU
                 System.out.println("Enter Pressed");
+                HomeScreen home = new HomeScreen();
+                try {
+                    home.start(Start.classStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -86,10 +93,10 @@ public class Start extends Application {
 
                         ball.setVelX(-ball.getVelX());
 
-                        System.out.println("Col");
                     }
                 }
             }
+
 
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);

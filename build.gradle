@@ -4,7 +4,7 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
-mainClassName = "Start"
+mainClassName = "HomeScreen"
 group 'org.example'
 version '1.0-SNAPSHOT'
 
