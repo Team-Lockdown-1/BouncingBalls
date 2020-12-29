@@ -23,6 +23,8 @@ public class Start extends Application {
         launch(args);
     }
 
+
+
     @Override
     public void start(Stage stage) throws Exception {
         classStage = stage;
@@ -33,7 +35,6 @@ public class Start extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
         root.getChildren().add(canvas);
-
         //On ESC pressed go back to HomeScreen
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {

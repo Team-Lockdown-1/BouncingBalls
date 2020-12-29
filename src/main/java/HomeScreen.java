@@ -3,6 +3,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -26,6 +27,7 @@ public class HomeScreen extends Application {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT, Color.BLACK);
 
         Button start = new Button("Start");
+        Button setting = new Button("Start");
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -39,8 +41,22 @@ public class HomeScreen extends Application {
                 stage1.close();
             }
         });
-        root.getChildren().add(start);
+        setting.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Setting set = new Setting();
+                Stage eins = set.getStage();
+                HBox m = set.getVBox();
+                Scene secondScene = new Scene(m,800,600);
+                eins.setScene(secondScene);
+                eins.show();
+            }
+        });
 
+
+        root.getChildren().add(start);
+        setting.setTranslateX(50);
+        root.getChildren().add(setting);
 
         stage.setTitle("Bouncing Balls!");
         stage.setScene(scene);
