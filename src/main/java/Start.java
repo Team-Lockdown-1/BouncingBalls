@@ -97,6 +97,10 @@ public class Start extends Application {
                 }
             }
 
+            for (BouncingBall ball: balls){
+                //TODO Collision Security Doors Nam Loc
+            }
+
 
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
