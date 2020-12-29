@@ -261,7 +261,7 @@ public class Setting extends Application {
         //------------------------------------------------------------------------------------------
 
         //----------Radiobutton preselection--------------------------------------------------------
-        for(ToggleButton x : Arrays.asList(einHundert,zweiHundert,dreiHundert,vierHundert)){
+        /*for(ToggleButton x : Arrays.asList(einHundert,zweiHundert,dreiHundert,vierHundert)){
             if(MainApp.list.get("bälle").equals(x.getText())){
                 x.setSelected(true);
             }
@@ -280,7 +280,7 @@ public class Setting extends Application {
             if(MainApp.list.get("genesung").equals(x.getText())){
                 x.setSelected(true);
             }
-        }
+        }*/
         /*
         if(Main.list.get("bälle").equals("100")){
             einHundert.setSelected(true);
@@ -318,14 +318,14 @@ public class Setting extends Application {
         */
 //------------------------------------------------------------------------------------------------------------
 
-        for(Button x : Arrays.asList(wien,amsterdam,haus,venedig,newyork,platzhalter)){
+        /*for(Button x : Arrays.asList(wien,amsterdam,haus,venedig,newyork,platzhalter)){
             x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg')" );
         }
         for(Button x : Arrays.asList(wien,amsterdam,haus,venedig,newyork,platzhalter)){
             if(MainApp.list.get("background").equals(x.getText())){
                 x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg')");
             }
-        }
+        }*
         /*
         if(Main.list.get("background").equals("wien")){
             wien.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
@@ -360,10 +360,10 @@ public class Setting extends Application {
                 String c = selectedRadioButtonInfi.getText();
                 RadioButton selectedRadioButtonGenesung = (RadioButton) genesung.getSelectedToggle();
                 String d = selectedRadioButtonGenesung.getText();
-                MainApp.saveData("bälle",a);
+                /*MainApp.saveData("bälle",a);
                 MainApp.saveData("geschwind",b);
                 MainApp.saveData("infi",c);
-                MainApp.saveData("genesung",d);
+                MainApp.saveData("genesung",d);*/
 
             }
         });
@@ -376,7 +376,7 @@ public class Setting extends Application {
                         x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg')" );
                     }
                     x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('picture/amsterdam.jpg')" );
-                    MainApp.list.put("background",x.getText());
+                    /*MainApp.list.put("background",x.getText());*/
                 }
             });
         }

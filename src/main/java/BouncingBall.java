@@ -1,41 +1,33 @@
 public class BouncingBall {
 
-    private int x;
-    private int y;
-    private int velX;
-    private int velY;
-    private int radius;
+    //TODO infections
 
-    public BouncingBall(int x, int y, int radius) {
+    private float x, y;         // Center of the Ball
+    private float velX, velY;   // Speed in x and y direction
+    private int radius;         // Radius
+
+    public BouncingBall(float x, float y, int vel, float angle, int radius) {
         this.x = x;
         this.y = y;
+        velX = (float)(vel * Math.sin(Math.toRadians(angle)));
+        velY = (float)(-vel * Math.cos(Math.toRadians(angle)));
         this.radius = radius;
-        randVel();
     }
 
-    public BouncingBall(int x, int y, int radius, int velX, int velY) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.velX = velX;
-        this.velY = velY;
-    }
-
-    //TODO control with specified speed=sqrt(x^2+y^2) no x or y velocity can't be 0
-    private void randVel(){
-        int max = 10;
-        int min = -10;
-        int range = max - min + 1;
-        velX = (int) (Math.random() * range) + min;
-        velY = (int) (Math.random() * range) + min;
-    }
-
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getVelX() {
+        return velX;
+    }
+
+    public float getY() {
         return y;
+    }
+
+    public float getVelY() {
+        return velY;
     }
 
     public int getRadius() {
@@ -47,11 +39,12 @@ public class BouncingBall {
         y += velY;
     }
 
-    public void setVelX(int velX) {
-        this.velX *= velX;
+    public void setVelX(float velX) {
+        this.velX = velX;
     }
 
-    public void setVelY(int velY) {
-        this.velY *= velY;
+    public void setVelY(float velY) {
+        this.velY = velY;
     }
+
 }
