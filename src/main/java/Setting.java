@@ -270,12 +270,12 @@ public class Setting extends Application {
 //------------------------------------------------------------------------------------------------------------
 
         for (Button x : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
-            x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/picture/amsterdam.jpg');" + "-fx-text-fill: transparent;");
+            x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/amsterdam.jpg');" + "-fx-text-fill: transparent;");
         }
 
         for (Button x : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
             if (HomeScreen.background.equals(x.getText())) {
-                x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/picture/amsterdam.jpg');" + "-fx-text-fill: transparent;");
+                x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/amsterdam.jpg');" + "-fx-text-fill: transparent;");
             }
         }
         /*
@@ -322,9 +322,9 @@ public class Setting extends Application {
                 @Override
                 public void handle(ActionEvent event) {
                     for (Button x : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
-                        x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('picture/amsterdam.jpg');" + "-fx-text-fill: transparent;");
+                        x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/amsterdam.jpg');" + "-fx-text-fill: transparent;");
                     }
-                    x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('picture/amsterdam.jpg');" + "-fx-text-fill: transparent;");
+                    x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/amsterdam.jpg');" + "-fx-text-fill: transparent;");
                     HomeScreen.setBackground("" + x.getText());
                 }
             });

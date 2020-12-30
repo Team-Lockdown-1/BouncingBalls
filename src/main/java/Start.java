@@ -5,11 +5,13 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +60,6 @@ public class Start extends Application {
             BouncingBall ball = new BouncingBall(x, y, HomeScreen.speed, angle, HomeScreen.size);
             balls.add(ball);
         }
-
         stage.setTitle("Bouncing Balls!");
         stage.setScene(scene);
         stage.show();
