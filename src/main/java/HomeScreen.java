@@ -25,7 +25,6 @@ public class HomeScreen extends Application {
 
     public static void setBalls(int x){
         balls = x;
-        System.out.println(balls);
     }
     public static void setSpeed(String x){
         if(x.equals("Langsam")){
@@ -47,7 +46,6 @@ public class HomeScreen extends Application {
     }
     public static void setHits(int x){
         hits = x;
-        System.out.println(hits);
     }
     public static void setBackground(String x){
         background = x;
