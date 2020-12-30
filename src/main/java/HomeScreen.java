@@ -14,7 +14,7 @@ public class HomeScreen extends Application {
     public static int speed = 6;
     public static int hits = 1;
     public static int heal = 30;
-    public static String background = "wien";
+    public static String background = "amsterdam";
     public static final int WINDOW_WIDTH = 1080;
     public static final int WINDOW_HEIGHT = 720;
     static Stage classStage = new Stage();

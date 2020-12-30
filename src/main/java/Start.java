@@ -32,6 +32,10 @@ public class Start extends Application {
         classStage = stage;
         //Make the Scene and the Canvas
         Pane root = new Pane();
+        /*
+         * //this code is needed to set the backgroundpicture MFG Mattias
+         *  root.setStyle("-fx-background-image: url('/"+HomeScreen.background+".jpg');");
+         */
         Scene scene = new Scene(root, HomeScreen.WINDOW_WIDTH, HomeScreen.WINDOW_HEIGHT, Color.BLACK);
         Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         GraphicsContext gc = canvas.getGraphicsContext2D();

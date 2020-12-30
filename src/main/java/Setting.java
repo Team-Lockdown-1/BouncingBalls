@@ -270,30 +270,14 @@ public class Setting extends Application {
 //------------------------------------------------------------------------------------------------------------
 
         for (Button x : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
-            x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/amsterdam.jpg');" + "-fx-text-fill: transparent;");
+            x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/"+ x.getText() +".jpg');" + "-fx-text-fill: transparent;" + "-fx-background-size: 150px 150px;");
         }
 
         for (Button x : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
             if (HomeScreen.background.equals(x.getText())) {
-                x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/amsterdam.jpg');" + "-fx-text-fill: transparent;");
+                x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/"+ x.getText() +".jpg');" + "-fx-text-fill: transparent;"+ "-fx-background-size: 150px 150px;");
             }
         }
-        /*
-        if(Main.list.get("background").equals("wien")){
-            wien.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
-        }else if(Main.list.get("background").equals("amsterdam")){
-            amsterdam.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
-        }else if(Main.list.get("background").equals("haus")){
-            haus.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
-        }else if(Main.list.get("background").equals("venedig")){
-            venedig.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
-        }else if(Main.list.get("background").equals("newyork")){
-            newyork.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
-        }else if(Main.list.get("background").equals("platzhalter")){
-            platzhalter.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;"+ "-fx-background-image: url('resources/amsterdam.jpg')");
-        }
-*/
-
 
 //-------------Button click functions------------------------------------------------------------------------
         speichern.setOnAction(new EventHandler<ActionEvent>() {
@@ -322,9 +306,9 @@ public class Setting extends Application {
                 @Override
                 public void handle(ActionEvent event) {
                     for (Button x : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
-                        x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/amsterdam.jpg');" + "-fx-text-fill: transparent;");
+                        x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/"+ x.getText() +".jpg');" + "-fx-text-fill: transparent;"+ "-fx-background-size: 150px 150px;");
                     }
-                    x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/amsterdam.jpg');" + "-fx-text-fill: transparent;");
+                    x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/"+ x.getText() +".jpg');" + "-fx-text-fill: transparent;"+ "-fx-background-size: 150px 150px;");
                     HomeScreen.setBackground("" + x.getText());
                 }
             });
