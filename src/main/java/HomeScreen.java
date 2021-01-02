@@ -14,6 +14,7 @@ public class HomeScreen extends Application {
     public static int speed = 6;
     public static int hits = 1;
     public static int heal = 30;
+    public static boolean security_doors = true; //TODO in die settings geben
     public static String background = "amsterdam";
     public static final int WINDOW_WIDTH = 1080;
     public static final int WINDOW_HEIGHT = 720;
@@ -61,13 +62,18 @@ public class HomeScreen extends Application {
         Pane root = new Pane();
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT, Color.BLACK);
         Button start = new Button("Start");
-        Button setting = new Button("Start");
+        Button setting = new Button("Settings");
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Start balls = new Start();
+                SecurityDoors doors = new SecurityDoors();
                 try {
-                    balls.start(Start.classStage);
+                    if(security_doors){
+                        doors.start(SecurityDoors.classStage);
+                    } else {
+                        balls.start(Start.classStage);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

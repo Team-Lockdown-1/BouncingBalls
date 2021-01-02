@@ -5,6 +5,10 @@ public class BouncingBall {
     private float x, y;         // Center of the Ball
     private float velX, velY;   // Speed in x and y direction
     private int radius;         // Radius
+    private boolean collided;
+    private boolean infected = false;
+    private int hits = HomeScreen.hits;
+    private float heal = HomeScreen.heal;
 
     public BouncingBall(float x, float y, int vel, float angle, int radius) {
         this.x = x;
@@ -12,6 +16,7 @@ public class BouncingBall {
         velX = (float)(vel * Math.sin(Math.toRadians(angle)));
         velY = (float)(-vel * Math.cos(Math.toRadians(angle)));
         this.radius = radius;
+        collided = false;
     }
 
     public float getX() {
@@ -47,4 +52,39 @@ public class BouncingBall {
         this.velY = velY;
     }
 
+    public void setCollided(boolean col){
+        collided = col;
+    }
+
+    public boolean isCollided() {
+        return collided;
+    }
+
+    public void onHit(){
+        if (hits == 0){
+            infected = true;
+        }else{
+            hits--;
+        }
+    }
+
+    public void setInfected(boolean infected) {
+        this.infected = infected;
+    }
+
+    public boolean isInfected() {
+        return infected;
+    }
+
+    public void genesung(){
+        heal -= 0.1;
+    }
+
+    public float getHeal() {
+        return heal;
+    }
+
+    public void setHeal(float heal) {
+        this.heal = heal;
+    }
 }
