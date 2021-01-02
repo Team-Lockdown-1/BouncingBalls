@@ -1,4 +1,5 @@
 import javafx.animation.KeyFrame;
+import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -8,6 +9,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -40,7 +43,70 @@ public class Start extends Application {
         Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
-        root.getChildren().add(canvas);
+
+        //----------------------------------Security-Doors------------------------------------------
+        Rectangle r1 = new Rectangle(360,0,40,355);   // r1 LeftUp
+        Rectangle r2 = new Rectangle(720,0,40,355);   // r2 RightUp
+        Rectangle r3 = new Rectangle(360,0,40,345); // r3 LeftDown
+        Rectangle r4 = new Rectangle(720,462,40,345); // r4 RightDown
+
+        r1.setFill(Color.STEELBLUE);
+        r2.setFill(Color.STEELBLUE);
+        r3.setFill(Color.STEELBLUE);
+        r4.setFill(Color.STEELBLUE);
+        r1.setArcWidth(15);                  //setArcWidth and setArcHeight -> for round corners
+        r1.setArcHeight(15);
+        r2.setArcWidth(15);
+        r2.setArcHeight(15);
+        r3.setArcWidth(15);
+        r3.setArcHeight(15);
+        r4.setArcWidth(15);
+        r4.setArcHeight(15);
+
+
+        Polyline path_r1 = new Polyline();
+        path_r1.getPoints().addAll(360.0, -200.0,
+                360.0, 180.0);
+        PathTransition p1 = new PathTransition();
+        p1.setNode(r1);
+        p1.setDuration(Duration.seconds(20));
+        p1.setPath(path_r1);
+        p1.setCycleCount(1);
+        p1.play();
+
+        Polyline path_r2 = new Polyline();
+        path_r2.getPoints().addAll(720.0, -200.0,
+                720.0, 180.0);
+        PathTransition p2 = new PathTransition();
+        p2.setNode(r2);
+        p2.setDuration(Duration.seconds(10));
+        p2.setPath(path_r2);
+        p2.setCycleCount(1);
+        p2.play();
+
+        Polyline path_r3 = new Polyline();
+        path_r3.getPoints().addAll(360.0, 900.0,
+                360.0, 530.0);
+        PathTransition p3 = new PathTransition();
+        p3.setNode(r3);
+        p3.setDuration(Duration.seconds(20));
+        p3.setPath(path_r3);
+        p3.setCycleCount(1);
+        p3.play();
+
+        Polyline path_r4 = new Polyline();
+        path_r4.getPoints().addAll(720.0, 900.0,
+                720.0, 530.0);
+        PathTransition p4 = new PathTransition();
+        p4.setNode(r4);
+        p4.setDuration(Duration.seconds(10));
+        p4.setPath(path_r4);
+        p4.setCycleCount(1);
+        p4.play();
+
+        //----------------------------------Security-Doors------------------------------------------
+
+        root.getChildren().addAll(canvas, r1, r2, r3, r4);
         //On ESC pressed go back to HomeScreen
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
