@@ -18,6 +18,14 @@ import java.util.List;
 
 public class SecurityDoors extends Application {
 
+    public static int doorTime = 5;               // door1, door2, door3, door4 doors -> time for closing/open doors
+    public static final int cycleCount = 1;       // cycle of all doors
+    public static int lockdownTime = 10;          // time of lockdown includes time for closing doors
+    public static int doorCorners = 15;           // doorCorners > 0 -> for round corners
+    public static Color color = Color.STEELBLUE;  // color of doors
+    public static final int doorsWidth = 40;      // shouldn't be changed because of class: Polyline
+    public static final int doorsHeight = 400;    // shouldn't be changed because of class: Polyline
+
     static Stage classStage = new Stage();
 
     private List<BouncingBall> balls = new ArrayList<>();
@@ -41,68 +49,117 @@ public class SecurityDoors extends Application {
         gc.setFill(Color.BLACK);
 
         //----------------------------------Security-Doors------------------------------------------
-        Rectangle r1 = new Rectangle(360,0,40,400);   // r1 LeftUp
-        Rectangle r2 = new Rectangle(720,0,40,400);   // r2 RightUp
-        Rectangle r3 = new Rectangle(360,0,40,400); // r3 LeftDown
-        Rectangle r4 = new Rectangle(720,462,40,400); // r4 RightDown
+        Rectangle door1 = new Rectangle(doorsWidth, doorsHeight);   // door1 LeftUp
+        Rectangle door2 = new Rectangle(doorsWidth, doorsHeight);   // door2 RightUp
+        Rectangle door3 = new Rectangle(doorsWidth, doorsHeight);   // door3 LeftDown
+        Rectangle door4 = new Rectangle(doorsWidth, doorsHeight);   // door4 RightDown
 
-        r1.setFill(Color.STEELBLUE);
-        r2.setFill(Color.STEELBLUE);
-        r3.setFill(Color.STEELBLUE);
-        r4.setFill(Color.STEELBLUE);
-        r1.setArcWidth(15);                  //setArcWidth and setArcHeight -> for round corners
-        r1.setArcHeight(15);
-        r2.setArcWidth(15);
-        r2.setArcHeight(15);
-        r3.setArcWidth(15);
-        r3.setArcHeight(15);
-        r4.setArcWidth(15);
-        r4.setArcHeight(15);
+        door1.setFill(color);
+        door2.setFill(color);
+        door3.setFill(color);
+        door4.setFill(color);
+
+        door1.setArcWidth(doorCorners);
+        door1.setArcHeight(doorCorners);
+        door2.setArcWidth(doorCorners);
+        door2.setArcHeight(doorCorners);
+        door3.setArcWidth(doorCorners);
+        door3.setArcHeight(doorCorners);
+        door4.setArcWidth(doorCorners);
+        door4.setArcHeight(doorCorners);
 
 
-        Polyline path_r1 = new Polyline();
-        path_r1.getPoints().addAll(360.0, -200.0,
+        //door?_path  &  door?_pathBack (class: Polyline) -> actual path of doors
+        //door?_pathActivate  &  door?_pathBackActivate (class: PathTransition) -> for methods
+
+        Polyline door1_path = new Polyline();
+        door1_path.getPoints().addAll(360.0, -200.0,
                 360.0, 153.0);
-        PathTransition p1 = new PathTransition();
-        p1.setNode(r1);
-        p1.setDuration(Duration.seconds(10));
-        p1.setPath(path_r1);
-        p1.setCycleCount(1);
-        p1.play();
+        PathTransition door1_pathActivate = new PathTransition();
+        door1_pathActivate.setNode(door1);
+        door1_pathActivate.setDuration(Duration.seconds(doorTime));
+        door1_pathActivate.setPath(door1_path);
+        door1_pathActivate.setCycleCount(cycleCount);
+        door1_pathActivate.play();
 
-        Polyline path_r2 = new Polyline();
-        path_r2.getPoints().addAll(720.0, -200.0,
+        Polyline door2_path = new Polyline();
+        door2_path.getPoints().addAll(720.0, -200.0,
                 720.0, 153.0);
-        PathTransition p2 = new PathTransition();
-        p2.setNode(r2);
-        p2.setDuration(Duration.seconds(10));
-        p2.setPath(path_r2);
-        p2.setCycleCount(1);
-        p2.play();
+        PathTransition door2_pathActivate = new PathTransition();
+        door2_pathActivate.setNode(door2);
+        door2_pathActivate.setDuration(Duration.seconds(doorTime));
+        door2_pathActivate.setPath(door2_path);
+        door2_pathActivate.setCycleCount(cycleCount);
+        door2_pathActivate.play();
 
-        Polyline path_r3 = new Polyline();
-        path_r3.getPoints().addAll(360.0, 900.0,
+        Polyline door3_path = new Polyline();
+        door3_path.getPoints().addAll(360.0, 900.0,
                 360.0, 554.0);
-        PathTransition p3 = new PathTransition();
-        p3.setNode(r3);
-        p3.setDuration(Duration.seconds(10));
-        p3.setPath(path_r3);
-        p3.setCycleCount(1);
-        p3.play();
+        PathTransition door3_pathActivate = new PathTransition();
+        door3_pathActivate.setNode(door3);
+        door3_pathActivate.setDuration(Duration.seconds(doorTime));
+        door3_pathActivate.setPath(door3_path);
+        door3_pathActivate.setCycleCount(cycleCount);
+        door3_pathActivate.play();
 
-        Polyline path_r4 = new Polyline();
-        path_r4.getPoints().addAll(720.0, 900.0,
+        Polyline door4_path = new Polyline();
+        door4_path.getPoints().addAll(720.0, 900.0,
                 720.0, 554.0);
-        PathTransition p4 = new PathTransition();
-        p4.setNode(r4);
-        p4.setDuration(Duration.seconds(10));
-        p4.setPath(path_r4);
-        p4.setCycleCount(1);
-        p4.play();
+        PathTransition door4_pathActivate = new PathTransition();
+        door4_pathActivate.setNode(door4);
+        door4_pathActivate.setDuration(Duration.seconds(doorTime));
+        door4_pathActivate.setPath(door4_path);
+        door4_pathActivate.setCycleCount(cycleCount);
+        door4_pathActivate.play();
 
-        //----------------------------------Security-Doors------------------------------------------
 
-        root.getChildren().addAll(canvas, r1, r2, r3, r4);
+        //----------------------Lockdown-Time-And-Open-Doors--------------------------------------------
+        Timeline test = new Timeline(new KeyFrame(Duration.seconds(lockdownTime), event -> {
+
+            Polyline door1_pathBack = new Polyline();
+            door1_pathBack.getPoints().addAll(360.0, 153.0,
+                    360.0, -200.0);
+            PathTransition door1_pathBackActivate = new PathTransition();
+            door1_pathBackActivate.setNode(door1);
+            door1_pathBackActivate.setPath(door1_pathBack);
+            door1_pathBackActivate.setDuration(Duration.seconds(doorTime));
+            door1_pathBackActivate.setCycleCount(cycleCount);
+            door1_pathBackActivate.play();
+
+            Polyline door2_pathBack = new Polyline();
+            door2_pathBack.getPoints().addAll(720.0, 153.0,
+                    720.0, -200.0);
+            PathTransition door2_pathBackActivate = new PathTransition();
+            door2_pathBackActivate.setNode(door2);
+            door2_pathBackActivate.setPath(door2_pathBack);
+            door2_pathBackActivate.setDuration(Duration.seconds(doorTime));
+            door2_pathBackActivate.setCycleCount(cycleCount);
+            door2_pathBackActivate.play();
+
+            Polyline door3_pathBack = new Polyline();
+            door3_pathBack.getPoints().addAll(360.0, 554.0,
+                    360.0, 900.0);
+            PathTransition door3_pathBackActivate = new PathTransition();
+            door3_pathBackActivate.setNode(door3);
+            door3_pathBackActivate.setPath(door3_pathBack);
+            door3_pathBackActivate.setDuration(Duration.seconds(doorTime));
+            door3_pathBackActivate.setCycleCount(cycleCount);
+            door3_pathBackActivate.play();
+
+            Polyline door4_pathBack = new Polyline();
+            door4_pathBack.getPoints().addAll(720.0, 554.0,
+                    720.0, 900.0);
+            PathTransition door4_pathBackActivate = new PathTransition();
+            door4_pathBackActivate.setNode(door4);
+            door4_pathBackActivate.setPath(door4_pathBack);
+            door4_pathBackActivate.setDuration(Duration.seconds(doorTime));
+            door4_pathBackActivate.setCycleCount(cycleCount);
+            door4_pathBackActivate.play();
+
+        }));
+        test.play();
+        root.getChildren().addAll(canvas, door1, door2, door3, door4);
+
         //On ESC pressed go back to HomeScreen
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
