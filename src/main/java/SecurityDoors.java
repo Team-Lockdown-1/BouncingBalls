@@ -18,13 +18,14 @@ import java.util.List;
 
 public class SecurityDoors extends Application {
 
-    public static int doorTime = 5;               // door1, door2, door3, door4 doors -> time for closing/open doors
-    public static final int cycleCount = 1;       // cycle of all doors
-    public static int lockdownTime = 10;          // time of lockdown includes time for closing doors
+    public static int doorTime = 5;               // all doors -> close/open animation time
+    public static final int cycleCount = 1;       // cycle of all doors; should be 1 -> else: animation problems
+    public static int lockdownTime = 10;          // time of lockdown (includes close animation time of doors)
     public static int doorCorners = 15;           // doorCorners > 0 -> for round corners
     public static Color color = Color.STEELBLUE;  // color of doors
-    public static final int doorsWidth = 40;      // shouldn't be changed because of class: Polyline
+    public static final int doorsWidth = 40;      //
     public static final int doorsHeight = 400;    // shouldn't be changed because of class: Polyline
+                                                  // else: merging of doors or on wrong positions
 
     static Stage classStage = new Stage();
 
@@ -71,9 +72,8 @@ public class SecurityDoors extends Application {
 
         //door?_path  &  door?_pathBack (class: Polyline) -> actual path of doors
         //door?_pathActivate  &  door?_pathBackActivate (class: PathTransition) -> for methods
-
         Polyline door1_path = new Polyline();
-        door1_path.getPoints().addAll(360.0, -200.0,
+        door1_path.getPoints().addAll(360.0, -223.0,
                 360.0, 153.0);
         PathTransition door1_pathActivate = new PathTransition();
         door1_pathActivate.setNode(door1);
@@ -83,7 +83,7 @@ public class SecurityDoors extends Application {
         door1_pathActivate.play();
 
         Polyline door2_path = new Polyline();
-        door2_path.getPoints().addAll(720.0, -200.0,
+        door2_path.getPoints().addAll(720.0, -223.0,
                 720.0, 153.0);
         PathTransition door2_pathActivate = new PathTransition();
         door2_pathActivate.setNode(door2);
@@ -93,7 +93,7 @@ public class SecurityDoors extends Application {
         door2_pathActivate.play();
 
         Polyline door3_path = new Polyline();
-        door3_path.getPoints().addAll(360.0, 900.0,
+        door3_path.getPoints().addAll(360.0, 930.0,
                 360.0, 554.0);
         PathTransition door3_pathActivate = new PathTransition();
         door3_pathActivate.setNode(door3);
@@ -103,7 +103,7 @@ public class SecurityDoors extends Application {
         door3_pathActivate.play();
 
         Polyline door4_path = new Polyline();
-        door4_path.getPoints().addAll(720.0, 900.0,
+        door4_path.getPoints().addAll(720.0, 930.0,
                 720.0, 554.0);
         PathTransition door4_pathActivate = new PathTransition();
         door4_pathActivate.setNode(door4);
@@ -114,11 +114,11 @@ public class SecurityDoors extends Application {
 
 
         //----------------------Lockdown-Time-And-Open-Doors--------------------------------------------
-        Timeline test = new Timeline(new KeyFrame(Duration.seconds(lockdownTime), event -> {
+        Timeline time = new Timeline(new KeyFrame(Duration.seconds(lockdownTime), event -> {
 
             Polyline door1_pathBack = new Polyline();
             door1_pathBack.getPoints().addAll(360.0, 153.0,
-                    360.0, -200.0);
+                    360.0, -223.0);
             PathTransition door1_pathBackActivate = new PathTransition();
             door1_pathBackActivate.setNode(door1);
             door1_pathBackActivate.setPath(door1_pathBack);
@@ -128,7 +128,7 @@ public class SecurityDoors extends Application {
 
             Polyline door2_pathBack = new Polyline();
             door2_pathBack.getPoints().addAll(720.0, 153.0,
-                    720.0, -200.0);
+                    720.0, -223.0);
             PathTransition door2_pathBackActivate = new PathTransition();
             door2_pathBackActivate.setNode(door2);
             door2_pathBackActivate.setPath(door2_pathBack);
@@ -138,7 +138,7 @@ public class SecurityDoors extends Application {
 
             Polyline door3_pathBack = new Polyline();
             door3_pathBack.getPoints().addAll(360.0, 554.0,
-                    360.0, 900.0);
+                    360.0, 930.0);
             PathTransition door3_pathBackActivate = new PathTransition();
             door3_pathBackActivate.setNode(door3);
             door3_pathBackActivate.setPath(door3_pathBack);
@@ -148,16 +148,16 @@ public class SecurityDoors extends Application {
 
             Polyline door4_pathBack = new Polyline();
             door4_pathBack.getPoints().addAll(720.0, 554.0,
-                    720.0, 900.0);
+                    720.0, 930.0);
             PathTransition door4_pathBackActivate = new PathTransition();
             door4_pathBackActivate.setNode(door4);
             door4_pathBackActivate.setPath(door4_pathBack);
             door4_pathBackActivate.setDuration(Duration.seconds(doorTime));
             door4_pathBackActivate.setCycleCount(cycleCount);
             door4_pathBackActivate.play();
-
         }));
-        test.play();
+        time.play();
+
         root.getChildren().addAll(canvas, door1, door2, door3, door4);
 
         //On ESC pressed go back to HomeScreen
