@@ -74,7 +74,6 @@ public class Setting extends Application {
 
         //--------------------Radio Button werden erstellt----------------------------------------------------------------------
         //radio Buttons für Bälle
-
         RadioButton einHundert = new RadioButton("10");
         RadioButton zweiHundert = new RadioButton("20");
         RadioButton dreiHundert = new RadioButton("30");
@@ -281,7 +280,7 @@ public class Setting extends Application {
                 x.setSelected(true);
             }
         }
-        if (HomeScreen.security_doors == true){
+        if (HomeScreen.security_doors){
             yes.setSelected(true);
         }else{
             no.setSelected(true);

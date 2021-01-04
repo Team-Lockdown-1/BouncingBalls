@@ -16,7 +16,6 @@ import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class SecurityDoors extends Application {
 //------------------------------ Mattias ----------------------------------------------------------------------
         ObservableList items = FXCollections.observableArrayList();
         items.add("Gesund: " + 2);
-        items.addAll("Infiziert: " + BouncingBall.test);
+        items.add("Infiziert: " + BouncingBall.test);
         ListView list = new ListView();
         list.getItems().addAll(items);
         root.getChildren().add(list);
@@ -62,7 +61,7 @@ public class SecurityDoors extends Application {
                         event -> {
                             items.clear();
                             items.add("Gesund: " + 2);
-                            items.addAll("Infiziert: " + BouncingBall.test);
+                            items.add("Infiziert: " + BouncingBall.test);
                             list.getItems().clear();
                             list.getItems().addAll(items);
                         }
