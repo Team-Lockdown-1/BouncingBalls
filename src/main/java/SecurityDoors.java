@@ -44,8 +44,8 @@ public class SecurityDoors extends Application {
 
 //------------------------------ Mattias ----------------------------------------------------------------------
         ObservableList items = FXCollections.observableArrayList();
-        items.add("Gesund: " + 2);
-        items.add("Infiziert: " + BouncingBall.test);
+        items.add("Gesund: " + BouncingBall.healthyBallsInList);
+        items.add("Infiziert: " + BouncingBall.infectedBallsInList);
         ListView list = new ListView();
         list.getItems().addAll(items);
         root.getChildren().add(list);
@@ -58,8 +58,8 @@ public class SecurityDoors extends Application {
                         Duration.millis( 1 ),
                         event -> {
                             items.clear();
-                            items.add("Gesund: " + BouncingBall.tryit);
-                            items.add("Infiziert: " + BouncingBall.test);
+                            items.add("Gesund: " + BouncingBall.healthyBallsInList);
+                            items.add("Infiziert: " + BouncingBall.infectedBallsInList);
                             list.getItems().clear();
                             list.getItems().addAll(items);
                         }
@@ -98,7 +98,6 @@ public class SecurityDoors extends Application {
         door3.setArcHeight(doorCorners);
         door4.setArcWidth(doorCorners);
         door4.setArcHeight(doorCorners);
-
 
         //door?_path  &  door?_pathBack (class: Polyline) -> actual path of doors
         //door?_pathActivate  &  door?_pathBackActivate (class: PathTransition) -> for methods
@@ -274,10 +273,18 @@ public class SecurityDoors extends Application {
                 if(ball.isInfected()){
                     ball.genesung();
                 }
-                //System.out.println(ball.getHeal());
+                System.out.println(ball.getHeal());
                 if(ball.getHeal()<=0){
                     ball.setInfected(false);
                     ball.setHeal(HomeScreen.heal);
+                }
+                if(ball.isInfected() && ball.hasNotBeenInfectedOnce){
+                    BouncingBall.increaseInfectedBallsInList();
+                    ball.hasNotBeenInfectedOnce = false;
+                    BouncingBall.increaseInfection(ball);
+                    System.out.println(BouncingBall.infectedBallsInList);
+                    BouncingBall.healthyBallsInList--;
+
                 }
             }
 

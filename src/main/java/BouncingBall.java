@@ -12,34 +12,30 @@ public class BouncingBall {
     private boolean infected = false;
     private int hits = HomeScreen.hits;
     private float heal = HomeScreen.heal;
-    //test variable ist für die liste in Security doors
-    public static int test;
-    public static int tryit = HomeScreen.balls;
+    //variable and methods for the list----------------
+    public static int infectedBallsInList;
+    public static int healthyBallsInList = HomeScreen.balls;
+    public boolean hasNotBeenInfectedOnce = true;
 
-    public void infetions(){
+    public static void increaseInfection(BouncingBall x){
         int delay = HomeScreen.heal * 200;
         int period = 1000;
-        test++;
-        tryit--;
-
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
-        {int count = 0;
+        {
             public void run()
             {
-
-                if(count == 0){
-                    test--;
-                    tryit++;
-                    count++;
-                    System.out.println("infected!");
-                }else{
-                    timer.cancel();
-                }
-
+                x.hasNotBeenInfectedOnce = true;
+                infectedBallsInList--;
+                healthyBallsInList++;
+                timer.cancel();
             }
         }, delay, period);
     }
+    public static void increaseInfectedBallsInList(){
+        infectedBallsInList++;
+    }
+//-------------------------------------------------------------
 
     public BouncingBall(float x, float y, int vel, float angle, int radius) {
         this.x = x;
@@ -100,7 +96,6 @@ public class BouncingBall {
     }
 
     public void setInfected(boolean infected) {
-        infetions();
         this.infected = infected;
     }
 
