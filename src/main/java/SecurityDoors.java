@@ -18,17 +18,20 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SecurityDoors extends Application {
     public static int doorTime = 5;               // all doors -> close/open animation time
     public static final int cycleCount = 1;       // cycle of all doors; should be 1 -> else: animation problems
-    public static int lockdownTime = 10;          // time of lockdown (includes close animation time of doors)
+    public static int lockdownTime = HomeScreen.heal;          // time of lockdown (includes close animation time of doors)
     public static int doorCorners = 15;           // doorCorners > 0 -> for round corners
     public static Color color = Color.STEELBLUE;  // color of doors
     public static final int doorsWidth = 40;      //
     public static final int doorsHeight = 400;    // shouldn't be changed because of class: Polyline
                                                   // else: merging of doors or on wrong positions
 
+    public static boolean test = true;
     static Stage classStage = new Stage();
 
     private List<BouncingBall> balls = new ArrayList<>();
@@ -44,7 +47,7 @@ public class SecurityDoors extends Application {
 
 //------------------------------ Mattias ----------------------------------------------------------------------
         ObservableList items = FXCollections.observableArrayList();
-        items.add("Gesund: " + BouncingBall.healthyBallsInList);
+        items.add("Gesund: " + 2);
         items.add("Infiziert: " + BouncingBall.infectedBallsInList);
         ListView list = new ListView();
         list.getItems().addAll(items);
@@ -99,93 +102,111 @@ public class SecurityDoors extends Application {
         door4.setArcWidth(doorCorners);
         door4.setArcHeight(doorCorners);
 
+
         //door?_path  &  door?_pathBack (class: Polyline) -> actual path of doors
         //door?_pathActivate  &  door?_pathBackActivate (class: PathTransition) -> for methods
-        Polyline door1_path = new Polyline();
-        door1_path.getPoints().addAll(360.0, -223.0,
-                360.0, 153.0);
-        PathTransition door1_pathActivate = new PathTransition();
-        door1_pathActivate.setNode(door1);
-        door1_pathActivate.setDuration(Duration.seconds(doorTime));
-        door1_pathActivate.setPath(door1_path);
-        door1_pathActivate.setCycleCount(cycleCount);
-        door1_pathActivate.play();
+        int delay = HomeScreen.heal * 200;
+        int period = 10;
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask()
+        {
+            public void run()
+            {
+                if(BouncingBall.healthyBallsInList < 10){
 
-        Polyline door2_path = new Polyline();
-        door2_path.getPoints().addAll(720.0, -223.0,
-                720.0, 153.0);
-        PathTransition door2_pathActivate = new PathTransition();
-        door2_pathActivate.setNode(door2);
-        door2_pathActivate.setDuration(Duration.seconds(doorTime));
-        door2_pathActivate.setPath(door2_path);
-        door2_pathActivate.setCycleCount(cycleCount);
-        door2_pathActivate.play();
+                    if(!test){
+                        timer.cancel();
+                    }
+                    test = false;
 
-        Polyline door3_path = new Polyline();
-        door3_path.getPoints().addAll(360.0, 930.0,
-                360.0, 554.0);
-        PathTransition door3_pathActivate = new PathTransition();
-        door3_pathActivate.setNode(door3);
-        door3_pathActivate.setDuration(Duration.seconds(doorTime));
-        door3_pathActivate.setPath(door3_path);
-        door3_pathActivate.setCycleCount(cycleCount);
-        door3_pathActivate.play();
+                    Polyline door1_path = new Polyline();
+                    door1_path.getPoints().addAll(360.0, -223.0,
+                            360.0, 153.0);
+                    PathTransition door1_pathActivate = new PathTransition();
+                    door1_pathActivate.setNode(door1);
+                    door1_pathActivate.setDuration(Duration.seconds(doorTime));
+                    door1_pathActivate.setPath(door1_path);
+                    door1_pathActivate.setCycleCount(cycleCount);
+                    door1_pathActivate.play();
 
-        Polyline door4_path = new Polyline();
-        door4_path.getPoints().addAll(720.0, 930.0,
-                720.0, 554.0);
-        PathTransition door4_pathActivate = new PathTransition();
-        door4_pathActivate.setNode(door4);
-        door4_pathActivate.setDuration(Duration.seconds(doorTime));
-        door4_pathActivate.setPath(door4_path);
-        door4_pathActivate.setCycleCount(cycleCount);
-        door4_pathActivate.play();
+                    Polyline door2_path = new Polyline();
+                    door2_path.getPoints().addAll(720.0, -223.0,
+                            720.0, 153.0);
+                    PathTransition door2_pathActivate = new PathTransition();
+                    door2_pathActivate.setNode(door2);
+                    door2_pathActivate.setDuration(Duration.seconds(doorTime));
+                    door2_pathActivate.setPath(door2_path);
+                    door2_pathActivate.setCycleCount(cycleCount);
+                    door2_pathActivate.play();
+
+                    Polyline door3_path = new Polyline();
+                    door3_path.getPoints().addAll(360.0, 930.0,
+                            360.0, 554.0);
+                    PathTransition door3_pathActivate = new PathTransition();
+                    door3_pathActivate.setNode(door3);
+                    door3_pathActivate.setDuration(Duration.seconds(doorTime));
+                    door3_pathActivate.setPath(door3_path);
+                    door3_pathActivate.setCycleCount(cycleCount);
+                    door3_pathActivate.play();
+
+                    Polyline door4_path = new Polyline();
+                    door4_path.getPoints().addAll(720.0, 930.0,
+                            720.0, 554.0);
+                    PathTransition door4_pathActivate = new PathTransition();
+                    door4_pathActivate.setNode(door4);
+                    door4_pathActivate.setDuration(Duration.seconds(doorTime));
+                    door4_pathActivate.setPath(door4_path);
+                    door4_pathActivate.setCycleCount(cycleCount);
+                    door4_pathActivate.play();
 
 
-        //----------------------Lockdown-Time-And-Open-Doors--------------------------------------------
-        Timeline time = new Timeline(new KeyFrame(Duration.seconds(lockdownTime), event -> {
+                    //----------------------Lockdown-Time-And-Open-Doors--------------------------------------------
+                    Timeline time = new Timeline(new KeyFrame(Duration.seconds(lockdownTime), event -> {
 
-            Polyline door1_pathBack = new Polyline();
-            door1_pathBack.getPoints().addAll(360.0, 153.0,
-                    360.0, -223.0);
-            PathTransition door1_pathBackActivate = new PathTransition();
-            door1_pathBackActivate.setNode(door1);
-            door1_pathBackActivate.setPath(door1_pathBack);
-            door1_pathBackActivate.setDuration(Duration.seconds(doorTime));
-            door1_pathBackActivate.setCycleCount(cycleCount);
-            door1_pathBackActivate.play();
+                        Polyline door1_pathBack = new Polyline();
+                        door1_pathBack.getPoints().addAll(360.0, 153.0,
+                                360.0, -223.0);
+                        PathTransition door1_pathBackActivate = new PathTransition();
+                        door1_pathBackActivate.setNode(door1);
+                        door1_pathBackActivate.setPath(door1_pathBack);
+                        door1_pathBackActivate.setDuration(Duration.seconds(doorTime));
+                        door1_pathBackActivate.setCycleCount(cycleCount);
+                        door1_pathBackActivate.play();
 
-            Polyline door2_pathBack = new Polyline();
-            door2_pathBack.getPoints().addAll(720.0, 153.0,
-                    720.0, -223.0);
-            PathTransition door2_pathBackActivate = new PathTransition();
-            door2_pathBackActivate.setNode(door2);
-            door2_pathBackActivate.setPath(door2_pathBack);
-            door2_pathBackActivate.setDuration(Duration.seconds(doorTime));
-            door2_pathBackActivate.setCycleCount(cycleCount);
-            door2_pathBackActivate.play();
+                        Polyline door2_pathBack = new Polyline();
+                        door2_pathBack.getPoints().addAll(720.0, 153.0,
+                                720.0, -223.0);
+                        PathTransition door2_pathBackActivate = new PathTransition();
+                        door2_pathBackActivate.setNode(door2);
+                        door2_pathBackActivate.setPath(door2_pathBack);
+                        door2_pathBackActivate.setDuration(Duration.seconds(doorTime));
+                        door2_pathBackActivate.setCycleCount(cycleCount);
+                        door2_pathBackActivate.play();
 
-            Polyline door3_pathBack = new Polyline();
-            door3_pathBack.getPoints().addAll(360.0, 554.0,
-                    360.0, 930.0);
-            PathTransition door3_pathBackActivate = new PathTransition();
-            door3_pathBackActivate.setNode(door3);
-            door3_pathBackActivate.setPath(door3_pathBack);
-            door3_pathBackActivate.setDuration(Duration.seconds(doorTime));
-            door3_pathBackActivate.setCycleCount(cycleCount);
-            door3_pathBackActivate.play();
+                        Polyline door3_pathBack = new Polyline();
+                        door3_pathBack.getPoints().addAll(360.0, 554.0,
+                                360.0, 930.0);
+                        PathTransition door3_pathBackActivate = new PathTransition();
+                        door3_pathBackActivate.setNode(door3);
+                        door3_pathBackActivate.setPath(door3_pathBack);
+                        door3_pathBackActivate.setDuration(Duration.seconds(doorTime));
+                        door3_pathBackActivate.setCycleCount(cycleCount);
+                        door3_pathBackActivate.play();
 
-            Polyline door4_pathBack = new Polyline();
-            door4_pathBack.getPoints().addAll(720.0, 554.0,
-                    720.0, 930.0);
-            PathTransition door4_pathBackActivate = new PathTransition();
-            door4_pathBackActivate.setNode(door4);
-            door4_pathBackActivate.setPath(door4_pathBack);
-            door4_pathBackActivate.setDuration(Duration.seconds(doorTime));
-            door4_pathBackActivate.setCycleCount(cycleCount);
-            door4_pathBackActivate.play();
-        }));
-        time.play();
+                        Polyline door4_pathBack = new Polyline();
+                        door4_pathBack.getPoints().addAll(720.0, 554.0,
+                                720.0, 930.0);
+                        PathTransition door4_pathBackActivate = new PathTransition();
+                        door4_pathBackActivate.setNode(door4);
+                        door4_pathBackActivate.setPath(door4_pathBack);
+                        door4_pathBackActivate.setDuration(Duration.seconds(doorTime));
+                        door4_pathBackActivate.setCycleCount(cycleCount);
+                        door4_pathBackActivate.play();
+                    }));
+                    time.play();
+                }
+            }
+        }, delay, period);
 
         root.getChildren().addAll(canvas, door1, door2, door3, door4);
 
@@ -273,7 +294,7 @@ public class SecurityDoors extends Application {
                 if(ball.isInfected()){
                     ball.genesung();
                 }
-                System.out.println(ball.getHeal());
+                //System.out.println(ball.getHeal());
                 if(ball.getHeal()<=0){
                     ball.setInfected(false);
                     ball.setHeal(HomeScreen.heal);
@@ -286,6 +307,7 @@ public class SecurityDoors extends Application {
                     BouncingBall.healthyBallsInList--;
 
                 }
+                //System.out.println(BouncingBall.test);
             }
 
 

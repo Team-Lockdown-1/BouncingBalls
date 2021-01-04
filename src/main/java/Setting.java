@@ -174,7 +174,6 @@ public class Setting extends Application {
             x.setSpacing(10);
             x.setPadding(new Insets(5, 5, 15, 5));
         }
-
         headingSettings.setPadding(new Insets(35, 5, 15, 5));
 
 
