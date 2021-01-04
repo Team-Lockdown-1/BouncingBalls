@@ -9,6 +9,21 @@ public class BouncingBall {
     private boolean infected = false;
     private int hits = HomeScreen.hits;
     private float heal = HomeScreen.heal;
+    //test variable ist für die liste in Security doors
+    public static int test = 1;
+
+    public static void increaseTest(){
+        test = test +1;
+        System.out.println("++++++++++++++++++");
+        System.out.println(test);
+        System.out.println("++++++++++++++++++");
+    }
+    public static void decreasetest(){
+        test = test -1;
+        System.out.println("++++++++++++++++++");
+        System.out.println(test);
+        System.out.println("++++++++++++++++++");
+    }
 
     public BouncingBall(float x, float y, int vel, float angle, int radius) {
         this.x = x;
@@ -69,6 +84,7 @@ public class BouncingBall {
     }
 
     public void setInfected(boolean infected) {
+        increaseTest();
         this.infected = infected;
     }
 

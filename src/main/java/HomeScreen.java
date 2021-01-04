@@ -20,6 +20,14 @@ public class HomeScreen extends Application {
     public static final int WINDOW_HEIGHT = 720;
     static Stage classStage = new Stage();
 
+    public static void setSecurity_doors(String x){
+        if (x.equals("yes")) {
+            security_doors = true;
+        }else{
+            security_doors = false;
+        }
+    }
+
     public static void setHeal(int x){
         heal = x;
     }

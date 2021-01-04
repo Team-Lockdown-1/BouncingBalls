@@ -35,6 +35,7 @@ public class Setting extends Application {
         HBox tempo = new HBox();
         HBox infiz = new HBox();
         HBox regeneration = new HBox();
+        HBox securityChoice = new HBox();
 
         //Boxen zusammenfügen
         mainBox.getChildren().add(leftMainBox);
@@ -44,7 +45,7 @@ public class Setting extends Application {
         leftMainBoxUpperHalf.getChildren().add(rightMainBoxVertical);
 
         //Positionen, damit der text an der richtigen Stelle angezeigt wird. muss für jede Box extra gesetzt werden.
-        for (HBox x : Arrays.asList(leftMainBoxLowerHalf, leftMainBoxUpperHalf, ball, tempo, infiz, regeneration)) {
+        for (HBox x : Arrays.asList(leftMainBoxLowerHalf, leftMainBoxUpperHalf, ball, tempo, infiz, regeneration, securityChoice)) {
             x.setAlignment(Pos.CENTER);
         }
         rightMainBoxVertical.setAlignment(Pos.TOP_CENTER);
@@ -56,16 +57,17 @@ public class Setting extends Application {
         Label geschwindigkeit = new Label("Geschwindigkeit");
         Label infiziert = new Label("Chance zum infizieren");
         Label heilung = new Label("Heilung");
+        Label securityDoors = new Label("Security Doors");
 
         //Font size - der ganze Label Text wird größer und fett geschrieben, für die lesbarkeit
         settings.setStyle("-fx-font-size: 20;" + "-fx-font-weight: bold");
-        for (Label x : Arrays.asList(numberOfBalls, geschwindigkeit, infiziert, heilung)) {
+        for (Label x : Arrays.asList(numberOfBalls, geschwindigkeit, infiziert, heilung, securityDoors)) {
             x.setStyle("-fx-font-weight: bold");
         }
 
 
         //In der rechten oberen hälfte werden alle Labels und radio buttons eingefügt
-        for (Region x : Arrays.asList(settings, numberOfBalls, ball, geschwindigkeit, tempo, infiziert, infiz, heilung, regeneration)) {
+        for (Region x : Arrays.asList(settings, numberOfBalls, ball, geschwindigkeit, tempo, infiziert, infiz, heilung, regeneration, securityDoors, securityChoice)) {
             rightMainBoxVertical.getChildren().add(x);
         }
 
@@ -92,6 +94,10 @@ public class Setting extends Application {
         RadioButton h30 = new RadioButton("30");
         RadioButton h60 = new RadioButton("60");
         RadioButton h120 = new RadioButton("120");
+
+        //Radio button für security doors
+        RadioButton yes = new RadioButton("yes");
+        RadioButton no = new RadioButton("no");
         //---------------------------------------------------------------------------------------------------------------------
 
         //-------------------Radio buttons werden eingefügt-----------------------------------------------------------------------------
@@ -115,12 +121,17 @@ public class Setting extends Application {
         for (RadioButton x : Arrays.asList(h30, h60, h120)) {
             regeneration.getChildren().add(x);
         }
+        //Einfügen Security Doors
+        for (RadioButton x : Arrays.asList(yes,no)) {
+            securityChoice.getChildren().add(x);
+        }
 
         //Gruppen für radio buttons
         ToggleGroup baelle = new ToggleGroup();
         ToggleGroup geschwind = new ToggleGroup();
         ToggleGroup infi = new ToggleGroup();
         ToggleGroup genesung = new ToggleGroup();
+        ToggleGroup securityGroup = new ToggleGroup();
 
         //Radio button groups - bälle
         for (RadioButton x : Arrays.asList(einHundert, zweiHundert, dreiHundert, vierHundert)) {
@@ -142,6 +153,10 @@ public class Setting extends Application {
             x.setToggleGroup(genesung);
         }
 
+        //radio button groups - security doors
+        for (RadioButton x : Arrays.asList(yes,no)) {
+            x.setToggleGroup(securityGroup);
+        }
         //--------------------------------------------------------------------------------------------------------------
 
         //---------------------Fixierte höhe der einzelnen segmente-------------------------------
@@ -156,7 +171,7 @@ public class Setting extends Application {
 
         //Spacing - abstände zwischen den wörtern und mehr Abstand zu den andern Zeilen
 
-        for (HBox x : Arrays.asList(ball, tempo, infiz, regeneration)) {
+        for (HBox x : Arrays.asList(ball, tempo, infiz, regeneration, securityChoice)) {
             x.setSpacing(10);
             x.setPadding(new Insets(5, 5, 15, 5));
         }
@@ -266,6 +281,11 @@ public class Setting extends Application {
                 x.setSelected(true);
             }
         }
+        if (HomeScreen.security_doors == true){
+            yes.setSelected(true);
+        }else{
+            no.setSelected(true);
+        }
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -292,11 +312,13 @@ public class Setting extends Application {
                 RadioButton selectedRadioButtonGeschwind = (RadioButton) geschwind.getSelectedToggle();
                 RadioButton selectedRadioButtonInfi = (RadioButton) infi.getSelectedToggle();
                 RadioButton selectedRadioButtonGenesung = (RadioButton) genesung.getSelectedToggle();
+                RadioButton selectedRadioButtonSecurityDoors = (RadioButton) securityGroup.getSelectedToggle();
 
                 HomeScreen.setBalls(Integer.parseInt(selectedRadioButtonBaelle.getText()));
                 HomeScreen.setSpeed(selectedRadioButtonGeschwind.getText());
                 HomeScreen.setHits(Integer.parseInt(selectedRadioButtonInfi.getText().substring(0, 1)));
                 HomeScreen.setHeal(Integer.parseInt(selectedRadioButtonGenesung.getText()));
+                HomeScreen.setSecurity_doors(selectedRadioButtonSecurityDoors.getText());
 
             }
         });

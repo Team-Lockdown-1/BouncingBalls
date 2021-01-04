@@ -1,10 +1,14 @@
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -12,7 +16,7 @@ import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,10 +44,39 @@ public class SecurityDoors extends Application {
         classStage = stage;
         //Make the Scene and the Canvas
         Pane root = new Pane();
-        /*
-         * //this code is needed to set the backgroundpicture MFG Mattias
-         *  root.setStyle("-fx-background-image: url('/"+HomeScreen.background+".jpg');");
-         */
+
+//------------------------------ Mattias ----------------------------------------------------------------------
+        ObservableList items = FXCollections.observableArrayList();
+        items.add("Gesund: " + 2);
+        items.addAll("Infiziert: " + BouncingBall.test);
+        ListView list = new ListView();
+        list.getItems().addAll(items);
+        root.getChildren().add(list);
+        list.setPrefHeight(50);
+        list.setPrefWidth(80);
+        list.setStyle("-fx-background-color: -fx-background ;" + "-fx-background-insets: 0;");
+
+        final Timeline eins = new Timeline(
+                new KeyFrame(
+                        Duration.millis( 20 ),
+                        event -> {
+                            items.clear();
+                            items.add("Gesund: " + 2);
+                            items.addAll("Infiziert: " + BouncingBall.test);
+                            list.getItems().clear();
+                            list.getItems().addAll(items);
+                        }
+                )
+
+        );
+        eins.setCycleCount( Animation.INDEFINITE );
+        eins.play();
+
+          //this code is needed to set the backgroundpicture MFG Mattias
+           root.setStyle("-fx-background-image: url('/"+HomeScreen.background+".jpg');");
+//---------------------------Mattas-------------------------------------------------------------------------------------
+
+
         Scene scene = new Scene(root, HomeScreen.WINDOW_WIDTH, HomeScreen.WINDOW_HEIGHT, Color.BLACK);
         Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -244,7 +277,7 @@ public class SecurityDoors extends Application {
                 if(ball.isInfected()){
                     ball.genesung();
                 }
-                System.out.println(ball.getHeal());
+                //System.out.println(ball.getHeal());
                 if(ball.getHeal()<=0){
                     ball.setInfected(false);
                     ball.setHeal(HomeScreen.heal);
