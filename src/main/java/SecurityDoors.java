@@ -30,6 +30,8 @@ public class SecurityDoors extends Application {
     public static final int doorsWidth = 40;      //
     public static final int doorsHeight = 400;    // shouldn't be changed because of class: Polyline
                                                   // else: merging of doors or on wrong positions
+    public static int positionX = 360;
+    public static int positionY = -623;
 
     public static boolean test = true;
     static Stage classStage = new Stage();
@@ -83,10 +85,15 @@ public class SecurityDoors extends Application {
         gc.setFill(Color.BLACK);
 
         //----------------------------------Security-Doors------------------------------------------
-        Rectangle door1 = new Rectangle(doorsWidth, doorsHeight);   // door1 LeftUp
-        Rectangle door2 = new Rectangle(doorsWidth, doorsHeight);   // door2 RightUp
-        Rectangle door3 = new Rectangle(doorsWidth, doorsHeight);   // door3 LeftDown
-        Rectangle door4 = new Rectangle(doorsWidth, doorsHeight);   // door4 RightDown
+        Rectangle door1 = new Rectangle(positionX,positionY,doorsWidth,doorsHeight);   // door1 LeftUp
+        Rectangle door2 = new Rectangle(positionX,positionY,doorsWidth,doorsHeight);   // door2 RightUp
+        Rectangle door3 = new Rectangle(positionX,positionY,doorsWidth,doorsHeight);   // door3 LeftDown
+        Rectangle door4 = new Rectangle(positionX,positionY,doorsWidth,doorsHeight);   // door4 RightDown
+
+        door1.setLayoutX(-100);
+        door2.setLayoutX(-100);
+        door3.setLayoutX(-100);
+        door4.setLayoutX(-100);
 
         door1.setFill(color);
         door2.setFill(color);
@@ -102,7 +109,6 @@ public class SecurityDoors extends Application {
         door4.setArcWidth(doorCorners);
         door4.setArcHeight(doorCorners);
 
-
         //door?_path  &  door?_pathBack (class: Polyline) -> actual path of doors
         //door?_pathActivate  &  door?_pathBackActivate (class: PathTransition) -> for methods
         int delay = HomeScreen.heal * 200;
@@ -113,7 +119,6 @@ public class SecurityDoors extends Application {
             public void run()
             {
                 if(BouncingBall.healthyBallsInList < 10){
-
                     if(!test){
                         timer.cancel();
                     }
