@@ -141,5 +141,7 @@ public class Start extends Application {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
+
+
     }
 }

@@ -101,7 +101,6 @@ public class HomeScreen extends Application {
             }
         });
 
-
         root.getChildren().add(start);
         setting.setTranslateX(50);
         root.getChildren().add(setting);

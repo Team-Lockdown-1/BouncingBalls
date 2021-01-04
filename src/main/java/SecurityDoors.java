@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SecurityDoors extends Application {
-
     public static int doorTime = 5;               // all doors -> close/open animation time
     public static final int cycleCount = 1;       // cycle of all doors; should be 1 -> else: animation problems
     public static int lockdownTime = 10;          // time of lockdown (includes close animation time of doors)
@@ -37,7 +36,6 @@ public class SecurityDoors extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
     @Override
     public void start(Stage stage) throws Exception {
         classStage = stage;
@@ -52,15 +50,15 @@ public class SecurityDoors extends Application {
         list.getItems().addAll(items);
         root.getChildren().add(list);
         list.setPrefHeight(50);
-        list.setPrefWidth(80);
+        list.setPrefWidth(180);
         list.setStyle("-fx-background-color: -fx-background ;" + "-fx-background-insets: 0;");
 
-        final Timeline eins = new Timeline(
+        final Timeline updateList = new Timeline(
                 new KeyFrame(
-                        Duration.millis( 20 ),
+                        Duration.millis( 1 ),
                         event -> {
                             items.clear();
-                            items.add("Gesund: " + 2);
+                            items.add("Gesund: " + BouncingBall.tryit);
                             items.add("Infiziert: " + BouncingBall.test);
                             list.getItems().clear();
                             list.getItems().addAll(items);
@@ -68,8 +66,8 @@ public class SecurityDoors extends Application {
                 )
 
         );
-        eins.setCycleCount( Animation.INDEFINITE );
-        eins.play();
+        updateList.setCycleCount( Animation.INDEFINITE );
+        updateList.play();
 
           //this code is needed to set the backgroundpicture MFG Mattias
            root.setStyle("-fx-background-image: url('/"+HomeScreen.background+".jpg');");

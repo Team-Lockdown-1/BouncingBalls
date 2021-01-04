@@ -1,3 +1,6 @@
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class BouncingBall {
 
     //TODO infections
@@ -10,19 +13,32 @@ public class BouncingBall {
     private int hits = HomeScreen.hits;
     private float heal = HomeScreen.heal;
     //test variable ist für die liste in Security doors
-    public static int test = 1;
+    public static int test;
+    public static int tryit = HomeScreen.balls;
 
-    public static void increaseTest(){
-        test = test +1;
-        System.out.println("++++++++++++++++++");
-        System.out.println(test);
-        System.out.println("++++++++++++++++++");
-    }
-    public static void decreasetest(){
-        test = test -1;
-        System.out.println("++++++++++++++++++");
-        System.out.println(test);
-        System.out.println("++++++++++++++++++");
+    public void infetions(){
+        int delay = HomeScreen.heal * 200;
+        int period = 1000;
+        test++;
+        tryit--;
+
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask()
+        {int count = 0;
+            public void run()
+            {
+
+                if(count == 0){
+                    test--;
+                    tryit++;
+                    count++;
+                    System.out.println("infected!");
+                }else{
+                    timer.cancel();
+                }
+
+            }
+        }, delay, period);
     }
 
     public BouncingBall(float x, float y, int vel, float angle, int radius) {
@@ -84,7 +100,7 @@ public class BouncingBall {
     }
 
     public void setInfected(boolean infected) {
-        increaseTest();
+        infetions();
         this.infected = infected;
     }
 
