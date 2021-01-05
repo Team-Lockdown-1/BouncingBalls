@@ -1,3 +1,7 @@
+/*
+
+ */
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,7 +19,7 @@ import java.util.Arrays;
 public class Setting extends Application {
     private static Stage guiStage;
 
-//hands over the  guiStage to the HomeScreen class
+    //hands over the  guiStage to the HomeScreen class
     public static Stage getStage() {
         Stage guiStage = new Stage();
         return guiStage;
@@ -67,12 +71,12 @@ public class Setting extends Application {
 
 
         //add radio buttons to the rightMianBoxVertical
-        for (Region x : Arrays.asList(headingSettings, labelNumberOfBalls, HBoxBall, labelGeschwindigkeit, HBoxSpeed, labelInfected, HBoxInfected, labelHealing, HBoxRegeneration, labelSecurityDoors, HBoxSecurityDoors)) {
-            rightMainBoxVertical.getChildren().add(x);
+        for (Region region : Arrays.asList(headingSettings, labelNumberOfBalls, HBoxBall, labelGeschwindigkeit, HBoxSpeed, labelInfected, HBoxInfected, labelHealing, HBoxRegeneration, labelSecurityDoors, HBoxSecurityDoors)) {
+            rightMainBoxVertical.getChildren().add(region);
         }
 
 
-        //--------------------Radio Button werden erstellt----------------------------------------------------------------------
+        //--------------------Radio Buttons----------------------------------------------------------------------
         //radio buttons for balls
         RadioButton radiobuttonTen = new RadioButton("10");
         RadioButton radiobuttonTwenty = new RadioButton("20");
@@ -97,68 +101,64 @@ public class Setting extends Application {
         //Radio button for security doors
         RadioButton yes = new RadioButton("yes");
         RadioButton no = new RadioButton("no");
-        //---------------------------------------------------------------------------------------------------------------------
-
-        //-------------------Radio buttons werden eingefügt-----------------------------------------------------------------------------
 
         //add radio button for balls
-        for (RadioButton x : Arrays.asList(radiobuttonTen, radiobuttonTwenty, radiobuttonThirty, radiobuttonFourty)) {
-            HBoxBall.getChildren().add(x);
+        for (RadioButton button : Arrays.asList(radiobuttonTen, radiobuttonTwenty, radiobuttonThirty, radiobuttonFourty)) {
+            HBoxBall.getChildren().add(button);
         }
 
         //add radio button for geschwindigkeit
-        for (RadioButton x : Arrays.asList(radiobuttonSlow, radiobuttonMedium, radiobuttonFast)) {
-            HBoxSpeed.getChildren().add(x);
+        for (RadioButton button : Arrays.asList(radiobuttonSlow, radiobuttonMedium, radiobuttonFast)) {
+            HBoxSpeed.getChildren().add(button);
         }
 
         //add radio button for infi
-        for (RadioButton x : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
-            HBoxInfected.getChildren().add(x);
+        for (RadioButton button : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
+            HBoxInfected.getChildren().add(button);
         }
 
         //add radio button for healing
-        for (RadioButton x : Arrays.asList(radiobuttonHealing30, radiobuttonHealing60, radiobuttonHealing120)) {
-            HBoxRegeneration.getChildren().add(x);
+        for (RadioButton button : Arrays.asList(radiobuttonHealing30, radiobuttonHealing60, radiobuttonHealing120)) {
+            HBoxRegeneration.getChildren().add(button);
         }
         //add radio button for Security doors
-        for (RadioButton x : Arrays.asList(yes,no)) {
-            HBoxSecurityDoors.getChildren().add(x);
+        for (RadioButton button : Arrays.asList(yes, no)) {
+            HBoxSecurityDoors.getChildren().add(button);
         }
 
         //create ToggleGroups for radio buttons. allows only to select 1 radio button per group
         ToggleGroup togglegroupBalls = new ToggleGroup();
         ToggleGroup togglegroupSpeed = new ToggleGroup();
         ToggleGroup togglegroupInfected = new ToggleGroup();
-        ToggleGroup togglegroupHealin = new ToggleGroup();
+        ToggleGroup togglegroupHealing = new ToggleGroup();
         ToggleGroup togglegroupSecurityGroup = new ToggleGroup();
 
         //add ball to the radiobutton group
-        for (RadioButton x : Arrays.asList(radiobuttonTen, radiobuttonTwenty, radiobuttonThirty, radiobuttonFourty)) {
-            x.setToggleGroup(togglegroupBalls);
+        for (RadioButton button : Arrays.asList(radiobuttonTen, radiobuttonTwenty, radiobuttonThirty, radiobuttonFourty)) {
+            button.setToggleGroup(togglegroupBalls);
         }
 
         //add geschwindigkeit to the radiobutton group
-        for (RadioButton x : Arrays.asList(radiobuttonSlow, radiobuttonMedium, radiobuttonFast)) {
-            x.setToggleGroup(togglegroupSpeed);
+        for (RadioButton button : Arrays.asList(radiobuttonSlow, radiobuttonMedium, radiobuttonFast)) {
+            button.setToggleGroup(togglegroupSpeed);
         }
 
         //add infiziert to the radio button group
-        for (RadioButton x : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
-            x.setToggleGroup(togglegroupInfected);
+        for (RadioButton button : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
+            button.setToggleGroup(togglegroupInfected);
         }
 
         //add genesung to the radio button group
-        for (RadioButton x : Arrays.asList(radiobuttonHealing30, radiobuttonHealing60, radiobuttonHealing120)) {
-            x.setToggleGroup(togglegroupHealin);
+        for (RadioButton button : Arrays.asList(radiobuttonHealing30, radiobuttonHealing60, radiobuttonHealing120)) {
+            button.setToggleGroup(togglegroupHealing);
         }
 
         //add security doors to the radio button group
-        for (RadioButton x : Arrays.asList(yes,no)) {
-            x.setToggleGroup(togglegroupSecurityGroup);
+        for (RadioButton button : Arrays.asList(yes, no)) {
+            button.setToggleGroup(togglegroupSecurityGroup);
         }
-        //--------------------------------------------------------------------------------------------------------------
 
-        //---------------------Fixierte höhe der einzelnen segmente-------------------------------
+
         //min/max Height and width for each segment.
         rightMainBoxVertical.setMinWidth(300);
         rightMainBoxVertical.setMinHeight(100);
@@ -166,13 +166,12 @@ public class Setting extends Application {
         rightMainBox.setMinWidth(400);
         leftMainBoxUpperHalf.setMinHeight(400);
         leftMainBoxLowerHalf.setMinHeight(180);
-        //---------------------------------------------------
 
 
         //change spacing between words and lines.
-        for (HBox x : Arrays.asList(HBoxBall, HBoxSpeed, HBoxInfected, HBoxRegeneration, HBoxSecurityDoors)) {
-            x.setSpacing(10);
-            x.setPadding(new Insets(5, 5, 15, 5));
+        for (HBox hbox : Arrays.asList(HBoxBall, HBoxSpeed, HBoxInfected, HBoxRegeneration, HBoxSecurityDoors)) {
+            hbox.setSpacing(10);
+            hbox.setPadding(new Insets(5, 5, 15, 5));
         }
         headingSettings.setPadding(new Insets(35, 5, 15, 5));
 
@@ -188,14 +187,13 @@ public class Setting extends Application {
                         "-fx-border-color: blue;");
 
 
-        //-----------------------------------------------------------------------------
         //create and add the save button
         Button buttonSave = new Button("Save & Exit");
         leftMainBoxLowerHalf.getChildren().add(buttonSave);
         buttonSave.setMinSize(200, 80);
 
-        //------------------------------------------------------------------------------
-        //Dritter Teil - rechte Hälfte
+
+        //--------------------------right half of the scene------------------------------------
 
         //label for szenarien
         Label scenarios = new Label("Szenarien");
@@ -241,76 +239,77 @@ public class Setting extends Application {
         }
 
         //spacing and styling
-        for (HBox x : Arrays.asList(firstHBoxForScenarios, secondHBoxForScenarios, thirdHBoxForScenarios)) {
-            x.setAlignment(Pos.TOP_CENTER);
-            x.setPadding(new Insets(5, 5, 10, 5));
-            x.setSpacing(10);
+        for (HBox hbox : Arrays.asList(firstHBoxForScenarios, secondHBoxForScenarios, thirdHBoxForScenarios)) {
+            hbox.setAlignment(Pos.TOP_CENTER);
+            hbox.setPadding(new Insets(5, 5, 10, 5));
+            hbox.setSpacing(10);
         }
         //------------------------------------------------------------------------------------------
-        //---------------------------Funktionen-----------------------------------------------------
+        //---------------------------functions-----------------------------------------------------
         //------------------------------------------------------------------------------------------
 
         //Radiobutton preselection for balls
-        for (ToggleButton x : Arrays.asList(radiobuttonTen, radiobuttonTwenty, radiobuttonThirty, radiobuttonFourty)) {
-            if (HomeScreen.balls == Integer.parseInt(x.getText())) {
-                x.setSelected(true);
+        for (ToggleButton button : Arrays.asList(radiobuttonTen, radiobuttonTwenty, radiobuttonThirty, radiobuttonFourty)) {
+            if (HomeScreen.balls == Integer.parseInt(button.getText())) {
+                button.setSelected(true);
             }
         }
         //Radiobutton preselection for geschwindigkeit
-        for (ToggleButton x : Arrays.asList(radiobuttonSlow, radiobuttonMedium, radiobuttonFast)) {
-            if (HomeScreen.getSpeed().equals(x.getText())) {
-                x.setSelected(true);
+        for (ToggleButton button : Arrays.asList(radiobuttonSlow, radiobuttonMedium, radiobuttonFast)) {
+            if (HomeScreen.getSpeed().equals(button.getText())) {
+                button.setSelected(true);
             }
         }
         //Radiobutton preselection infiziert
-        for (ToggleButton x : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
-            String string = x.getText();
+        for (ToggleButton button : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
+            String string = button.getText();
             string = string.substring(0, 1);
             int hits = Integer.parseInt(string);
             if (HomeScreen.hits == hits) {
-                x.setSelected(true);
+                button.setSelected(true);
             }
         }
         //Radiobutton preselection for healing
-        for (ToggleButton x : Arrays.asList(radiobuttonHealing30, radiobuttonHealing60, radiobuttonHealing120)) {
-            if (HomeScreen.heal == Integer.parseInt(x.getText())) {
-                x.setSelected(true);
+        for (ToggleButton button : Arrays.asList(radiobuttonHealing30, radiobuttonHealing60, radiobuttonHealing120)) {
+            if (HomeScreen.heal == Integer.parseInt(button.getText())) {
+                button.setSelected(true);
             }
         }
         //Radiobutton preselection for security door
-        if (HomeScreen.security_doors){
+        if (HomeScreen.security_doors) {
             yes.setSelected(true);
-        }else{
+        } else {
             no.setSelected(true);
         }
 
 //------------------------------------------------------------------------------------------------------------
+
         //load a picture as button background for the scenario buttons
-        for (Button x : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
-            x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/"+ x.getText() +".jpg');" + "-fx-text-fill: transparent;" + "-fx-background-size: 150px 150px;");
+        for (Button button : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
+            button.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/" + button.getText() + ".jpg');" + "-fx-text-fill: transparent;" + "-fx-background-size: 150px 150px;");
         }
         //Scenario button preselection
-        for (Button x : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
-            if (HomeScreen.background.equals(x.getText())) {
-                x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/"+ x.getText() +".jpg');" + "-fx-text-fill: transparent;"+ "-fx-background-size: 150px 150px;");
+        for (Button button : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
+            if (HomeScreen.background.equals(button.getText())) {
+                button.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/" + button.getText() + ".jpg');" + "-fx-text-fill: transparent;" + "-fx-background-size: 150px 150px;");
             }
         }
 
-//-------------Button click functions------------------------------------------------------------------------
+        //save button on click event
         buttonSave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Stage stage = (Stage) buttonSave.getScene().getWindow();
                 stage.close();
 
-                //Daten werden in die Hashmap gespeichert
-                //benötigt man damit man nur den Wert des radiobuttons zu speichern
+                //get button of the selected Togglegroup
                 RadioButton selectedRadioButtonBaelle = (RadioButton) togglegroupBalls.getSelectedToggle();
                 RadioButton selectedRadioButtonGeschwind = (RadioButton) togglegroupSpeed.getSelectedToggle();
                 RadioButton selectedRadioButtonInfi = (RadioButton) togglegroupInfected.getSelectedToggle();
-                RadioButton selectedRadioButtonGenesung = (RadioButton) togglegroupHealin.getSelectedToggle();
+                RadioButton selectedRadioButtonGenesung = (RadioButton) togglegroupHealing.getSelectedToggle();
                 RadioButton selectedRadioButtonSecurityDoors = (RadioButton) togglegroupSecurityGroup.getSelectedToggle();
 
+                //change variables in HomeScreen
                 HomeScreen.setBalls(Integer.parseInt(selectedRadioButtonBaelle.getText()));
                 HomeScreen.setSpeed(selectedRadioButtonGeschwind.getText());
                 HomeScreen.setHits(Integer.parseInt(selectedRadioButtonInfi.getText().substring(0, 1)));
@@ -320,15 +319,19 @@ public class Setting extends Application {
             }
         });
 
-        for (Button x : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
-            x.setOnAction(new EventHandler<ActionEvent>() {
+        //scene button on click event
+        for (Button button : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
+            button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    for (Button x : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
-                        x.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/"+ x.getText() +".jpg');" + "-fx-text-fill: transparent;"+ "-fx-background-size: 150px 150px;");
+                    //change the style of every other button to black border, if one is clicked
+                    for (Button button : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
+                        button.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/" + button.getText() + ".jpg');" + "-fx-text-fill: transparent;" + "-fx-background-size: 150px 150px;");
                     }
-                    x.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/"+ x.getText() +".jpg');" + "-fx-text-fill: transparent;"+ "-fx-background-size: 150px 150px;");
-                    HomeScreen.setBackground("" + x.getText());
+                    //change the border color of the selected button to red
+                    button.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/" + button.getText() + ".jpg');" + "-fx-text-fill: transparent;" + "-fx-background-size: 150px 150px;");
+                    //change the variable in HomeScreen. is needed to load the background image.
+                    HomeScreen.setBackground("" + button.getText());
                 }
             });
         }

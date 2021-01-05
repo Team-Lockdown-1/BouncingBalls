@@ -1,4 +1,3 @@
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
@@ -55,37 +54,23 @@ public class SecurityDoors extends Application {
         //Make the Scene and the Canvas
         Pane root = new Pane();
 
-//------------------------------ Mattias ----------------------------------------------------------------------
+        //Observerable list, is needed to display in realtime
         ObservableList items = FXCollections.observableArrayList();
-        items.add("Gesund: " + 2);
+        //healthy balls
+        items.add("Gesund: " + BouncingBall.healthyBallsInList);
+        //infected balls
         items.add("Infiziert: " + BouncingBall.infectedBallsInList);
+        //creating a listview
         ListView list = new ListView();
+        //put the observerable list into the listview, to display it on the screen
         list.getItems().addAll(items);
         root.getChildren().add(list);
+        //set height & Width for the list
         list.setPrefHeight(50);
         list.setPrefWidth(180);
         list.setStyle("-fx-background-color: -fx-background ;" + "-fx-background-insets: 0;");
-/*
-        final Timeline updateList = new Timeline(
 
-                new KeyFrame(
-                        Duration.millis( 1 ),
-                        event -> {
-                            items.clear();
-                            items.add("Gesund: " + BouncingBall.healthyBallsInList);
-                            items.add("Infiziert: " + BouncingBall.infectedBallsInList);
-                            list.getItems().clear();
-                            list.getItems().addAll(items);
-                        }
-                )
-
-        );
-        updateList.setCycleCount( Animation.INDEFINITE );
-        updateList.play();
-
- */
-
-          //this code is needed to set the backgroundpicture MFG Mattias
+          //this code is needed to set the backgroundpicture
            root.setStyle("-fx-background-image: url('/"+HomeScreen.background+".jpg');");
 //---------------------------Mattias-------------------------------------------------------------------------------------
 
@@ -224,19 +209,6 @@ public class SecurityDoors extends Application {
 
         root.getChildren().addAll(canvas, door1, door2, door3, door4);
 
-        //On ESC pressed go back to HomeScreen
-        scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {
-                System.out.println("Enter Pressed");
-                HomeScreen home = new HomeScreen();
-                try {
-                    home.start(Start.classStage);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
         //Generate Random Balls
         //TODO make no Balls spawn on top of eachother
         for (int i = 0; i < HomeScreen.balls; i++){
@@ -253,15 +225,18 @@ public class SecurityDoors extends Application {
         stage.setResizable(false);
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(20), t -> {
-            //-----------------------------
+            //clear observerable list
             items.clear();
+            //load in new number of healthy balls
             items.add("Gesund: " + BouncingBall.healthyBallsInList);
+            //load in new number of infected balls
             items.add("Infiziert: " + BouncingBall.infectedBallsInList);
+            //clear list
             list.getItems().clear();
+            //load everything in the observerable list
             list.getItems().addAll(items);
-            gc.clearRect(0, 0, scene.getWidth(), scene.getHeight());
-            //------------------------------
 
+            gc.clearRect(0, 0, scene.getWidth(), scene.getHeight());
             for (BouncingBall ball : balls) {
                 if (ball.isInfected()){
                     gc.setFill(Color.GREEN);
@@ -320,15 +295,15 @@ public class SecurityDoors extends Application {
                     ball.setInfected(false);
                     ball.setHeal(HomeScreen.heal);
                 }
-                //this method updates the healty / infected list
+                //this method updates the infected list
                 if(ball.isInfected() && ball.hasNotBeenInfectedOnce){
-                   // BouncingBall.increaseInfectedBallsInList();
-                   // ball.hasNotBeenInfectedOnce = false;
-                    BouncingBall.increaseInfection(ball);
-                    //System.out.println(BouncingBall.infectedBallsInList);
-                    //BouncingBall.healthyBallsInList--;
-
+                    BouncingBall.infectedCounter(ball);
                 }
+                //this method updates the healthy list
+                if(!ball.isInfected() && !ball.hasNotBeenInfectedOnce && ball.hasBeenHealed){
+                    BouncingBall.regenerationCounter(ball);
+                }
+
             }
 
 
@@ -336,6 +311,22 @@ public class SecurityDoors extends Application {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
+        //On ESC pressed go back to HomeScreen
+        list.setOnKeyPressed(event -> {
+            timeline.stop();
+            //close the scene
+            Stage thisStage = (Stage) list.getScene().getWindow();
+            thisStage.close();
+            if (event.getCode() == KeyCode.ESCAPE) {
+                //open new scene
+                HomeScreen home = new HomeScreen();
+                try {
+                    home.start(Start.classStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 }

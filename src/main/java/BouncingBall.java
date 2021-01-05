@@ -1,6 +1,3 @@
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class BouncingBall {
 
     //TODO infections
@@ -13,40 +10,34 @@ public class BouncingBall {
     private int hits = HomeScreen.hits;
     private float heal = HomeScreen.heal;
     //variable and methods for the list----------------
-    public static int infectedBallsInList;
-    public static int healthyBallsInList = HomeScreen.balls;
-    public boolean hasNotBeenInfectedOnce = true;
+    public static int infectedBallsInList; //infected balls list number
+    public static int healthyBallsInList = HomeScreen.balls; //healthy balls list number
+    //this booleans are important, otherwise it would be conuted as infected if 2 infected balls collide
+    public boolean hasNotBeenInfectedOnce = true; //has been infected, yes or no. important.
+    public boolean hasBeenHealed = true; //has been healed, yes or no. important
 
-    public static void increaseInfection(BouncingBall x){
-        /*
-        Versuch um code zu sparen
-         */
-        infectedBallsInList++;
-        healthyBallsInList--;
-        x.hasNotBeenInfectedOnce = false;
-        /*
-        Versuch um code zu sparen
-         */
-        int delay = HomeScreen.heal * 233;
-        int period = 1000;
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask()
-        {
-            public void run()
-            {
-                x.hasNotBeenInfectedOnce = true;
-                infectedBallsInList--;
-                healthyBallsInList++;
-                timer.cancel();
-            }
-        }, delay, period);
+    //increases the number of infected and decreases the number of healthy balls
+    public static void infectedCounter(BouncingBall ball){
+        //booleans has to be true / false, otherwise the counter doesn´t count properly
+        ball.hasBeenHealed = true;
+        ball.hasNotBeenInfectedOnce = false;
+        BouncingBall.healthyBallsInList--;
+        BouncingBall.infectedBallsInList++;
+
     }
-    /*
-    public static void increaseInfectedBallsInList(){
-        infectedBallsInList++;
+    //decreases the number of infected and increases the number of healthy balls
+    public static void regenerationCounter(BouncingBall ball){
+        BouncingBall.healthyBallsInList++;
+        BouncingBall.infectedBallsInList--;
+        //booleans has to be true / false, otherwise the counter doesn´t count properly
+        ball.hasBeenHealed = false;
+        ball.hasNotBeenInfectedOnce = true;
     }
-    TEST
-     */
+    //set the healthy/infected list back to default
+    public static void resetList(){
+        infectedBallsInList = 0;
+        healthyBallsInList = HomeScreen.balls;
+    }
 //-------------------------------------------------------------
 
     public BouncingBall(float x, float y, int vel, float angle, int radius) {

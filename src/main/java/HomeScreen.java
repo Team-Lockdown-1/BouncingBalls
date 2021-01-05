@@ -82,6 +82,8 @@ public class HomeScreen extends Application {
             public void handle(ActionEvent event) {
                 Start balls = new Start();
                 SecurityDoors doors = new SecurityDoors();
+                //infected list will be set to default value
+                BouncingBall.resetList();
                 try {
                     if(security_doors){
                         doors.start(SecurityDoors.classStage);
@@ -98,11 +100,15 @@ public class HomeScreen extends Application {
         setting.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                //create a new stage
                 Stage settingScreen = Setting.getStage();
+                //load HBOX from Settings
                 HBox interfaceFromSetting = Setting.getHBox();
+                //create a scene
                 Scene secondScene = new Scene(interfaceFromSetting,800,600);
                 settingScreen.setScene(secondScene);
                 settingScreen.setResizable(false);
+                //open new window with settings
                 settingScreen.show();
             }
         });
