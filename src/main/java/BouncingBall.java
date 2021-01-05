@@ -18,7 +18,16 @@ public class BouncingBall {
     public boolean hasNotBeenInfectedOnce = true;
 
     public static void increaseInfection(BouncingBall x){
-        int delay = HomeScreen.heal * 200;
+        /*
+        Versuch um code zu sparen
+         */
+        infectedBallsInList++;
+        healthyBallsInList--;
+        x.hasNotBeenInfectedOnce = false;
+        /*
+        Versuch um code zu sparen
+         */
+        int delay = HomeScreen.heal * 233;
         int period = 1000;
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
@@ -32,9 +41,12 @@ public class BouncingBall {
             }
         }, delay, period);
     }
+    /*
     public static void increaseInfectedBallsInList(){
         infectedBallsInList++;
     }
+    TEST
+     */
 //-------------------------------------------------------------
 
     public BouncingBall(float x, float y, int vel, float angle, int radius) {

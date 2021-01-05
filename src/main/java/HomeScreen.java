@@ -9,18 +9,18 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class HomeScreen extends Application {
-    //Settings can change the value of balls, which changes the amount of balls in the game
+    //Settings can change the value of balls variable, which changes the amount of balls in the game
     public static int balls = 20;
     public static int size = 10;
-    //Settings can change the value of speed, which changes the speed of the balls in the game
+    //Settings can change the value of speed variable, which changes the speed of the balls in the game
     public static int speed = 6;
-    //Settings can change the value of hits, which changes the infection rate
+    //Settings can change the value of hits variable, which changes the infection rate
     public static int hits = 1;
-    //Settings can change the value of heal, which changes the time the balls need to be healty again
+    //Settings can change the value of heal variable, which changes the time the balls need to be healty again
     public static int heal = 30;
     //Settings can change the value of security_doors, which sets security doors on/off
     public static boolean security_doors = true; //TODO in die settings geben
-    //Settings can change the value of the background, which changes the background of the game
+    //Settings can change the value of the background variable, which changes the background of the game
     public static String background = "amsterdam";
     public static final int WINDOW_WIDTH = 1080;
     public static final int WINDOW_HEIGHT = 720;
@@ -102,6 +102,7 @@ public class HomeScreen extends Application {
                 HBox interfaceFromSetting = Setting.getHBox();
                 Scene secondScene = new Scene(interfaceFromSetting,800,600);
                 settingScreen.setScene(secondScene);
+                settingScreen.setResizable(false);
                 settingScreen.show();
             }
         });

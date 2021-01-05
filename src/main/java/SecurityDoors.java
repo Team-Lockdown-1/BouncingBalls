@@ -99,7 +99,7 @@ public class SecurityDoors extends Application {
             allDoors.setArcWidth(doorCorners);
         }
 
-        int delay = HomeScreen.heal * 200;
+        int delay = HomeScreen.heal * 233;
         int period = 10;
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
@@ -306,15 +306,15 @@ public class SecurityDoors extends Application {
                     ball.setInfected(false);
                     ball.setHeal(HomeScreen.heal);
                 }
+                //this method updates the healty / infected list
                 if(ball.isInfected() && ball.hasNotBeenInfectedOnce){
-                    BouncingBall.increaseInfectedBallsInList();
-                    ball.hasNotBeenInfectedOnce = false;
+                   // BouncingBall.increaseInfectedBallsInList();
+                   // ball.hasNotBeenInfectedOnce = false;
                     BouncingBall.increaseInfection(ball);
-                    System.out.println(BouncingBall.infectedBallsInList);
-                    BouncingBall.healthyBallsInList--;
+                    //System.out.println(BouncingBall.infectedBallsInList);
+                    //BouncingBall.healthyBallsInList--;
 
                 }
-                //System.out.println(BouncingBall.test);
             }
 
 
