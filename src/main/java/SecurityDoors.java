@@ -21,20 +21,25 @@ import java.util.*;
 
 public class SecurityDoors extends Application {
     public static int doorTime = 5;                       // all doors -> close/open animation time
-    public static final int cycleCount = 1;               // cycle of all doors; should be 1 -> else: animation problems
+    public static final int cycleCount = 1;               // cycle of all doors; don't change -> else: animation problems
     public static int lockdownTime = HomeScreen.heal;     // time of lockdown (includes close animation time of doors)
     public static int doorCorners = 15;                   // doorCorners > 0 -> for round corners
     public static Color color = Color.STEELBLUE;          // color of doors
     public static double doorsWidth = 40.0;               // width of doors
     public static final double doorsHeight = 400.0;       // if changed -> merging of doors or on wrong positions
-
     public static double xPosLeftDoors = 360.0;           // starting X-position of left doors
     public static double xPosRightDoors = 720.0;          // starting X-position of right doors
     public static final double yPosUpperDoors = -223.0;   // starting Y-position of upper doors
     public static final double yPosLowerDoors = 930.0;    // starting Y-position of lower doors
     public static final double yDestUpperDoors = 153.0;   // destination Y-position of upper doors
     public static final double yDestLowerDoors = 554.0;   // destination Y-position of lower doors
-    public static final int positionY = -623;             // waiting Y-position of doors
+
+    // waiting Y-position of doors | if variable is not used -> doors will spawn in the scene before animation starts
+    public static final double positionY = -500.0;
+
+    // infected balls > healthy ball -> delay time: when doors should react and start the closing animation; still buggy
+    public static final int delay = 1000;
+    public static final int period = 10;                  // don't change -> else: animation and starting problems
 
     public static boolean test = true;
     static Stage classStage = new Stage();
@@ -82,7 +87,7 @@ public class SecurityDoors extends Application {
 
           //this code is needed to set the backgroundpicture MFG Mattias
            root.setStyle("-fx-background-image: url('/"+HomeScreen.background+".jpg');");
-//---------------------------Mattas-------------------------------------------------------------------------------------
+//---------------------------Mattias-------------------------------------------------------------------------------------
 
 
         Scene scene = new Scene(root, HomeScreen.WINDOW_WIDTH, HomeScreen.WINDOW_HEIGHT, Color.BLACK);
@@ -91,7 +96,7 @@ public class SecurityDoors extends Application {
         gc.setFill(Color.BLACK);
 
 
-        //----------------------------------Security-Doors------------------------------------------
+        //----------------------------------Security-Doors---------------------------------------------------------------
         Rectangle door1 = new Rectangle(xPosLeftDoors, positionY, doorsWidth, doorsHeight);     // door1 LeftUp
         Rectangle door2 = new Rectangle(xPosRightDoors, positionY, doorsWidth, doorsHeight);    // door2 RightUp
         Rectangle door3 = new Rectangle(xPosLeftDoors, positionY, doorsWidth, doorsHeight);     // door3 LeftDown
@@ -103,14 +108,12 @@ public class SecurityDoors extends Application {
             allDoors.setArcWidth(doorCorners);
         }
 
-        int delay = HomeScreen.heal * 233;
-        int period = 10;
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask()
         {
             public void run()
             {
-                if(BouncingBall.healthyBallsInList < 10){
+                if(BouncingBall.healthyBallsInList < HomeScreen.balls/2){
                     if(!test){
                         timer.cancel();
                     }
@@ -163,7 +166,7 @@ public class SecurityDoors extends Application {
                     door4_pathActivate.play();
 
 
-                    //----------------------Lockdown-Time-And-Open-Doors--------------------------------------------
+                    //----------------------Lockdown-Time-And-Open-Doors-------------------------------------------------
 
                     //door?_pathBack (class: Polyline) -> actual path of doors
                     //door?_pathBackActivate (class: PathTransition) -> for methods and to show animation
