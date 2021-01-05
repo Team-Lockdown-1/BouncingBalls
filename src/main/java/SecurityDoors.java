@@ -16,22 +16,25 @@ import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
+import java.util.*;
 
 public class SecurityDoors extends Application {
-    public static int doorTime = 5;               // all doors -> close/open animation time
-    public static final int cycleCount = 1;       // cycle of all doors; should be 1 -> else: animation problems
-    public static int lockdownTime = HomeScreen.heal;          // time of lockdown (includes close animation time of doors)
-    public static int doorCorners = 15;           // doorCorners > 0 -> for round corners
-    public static Color color = Color.STEELBLUE;  // color of doors
-    public static final int doorsWidth = 40;      //
-    public static final int doorsHeight = 400;    // shouldn't be changed because of class: Polyline
-                                                  // else: merging of doors or on wrong positions
-    public static int positionX = 360;
-    public static int positionY = -623;
+    public static int doorTime = 5;                       // all doors -> close/open animation time
+    public static final int cycleCount = 1;               // cycle of all doors; should be 1 -> else: animation problems
+    public static int lockdownTime = HomeScreen.heal;     // time of lockdown (includes close animation time of doors)
+    public static int doorCorners = 15;                   // doorCorners > 0 -> for round corners
+    public static Color color = Color.STEELBLUE;          // color of doors
+    public static double doorsWidth = 40.0;               // width of doors
+    public static final double doorsHeight = 400.0;       // if changed -> merging of doors or on wrong positions
+
+    public static double xPosLeftDoors = 360.0;           // starting X-position of left doors
+    public static double xPosRightDoors = 720.0;          // starting X-position of right doors
+    public static final double yPosUpperDoors = -223.0;   // starting Y-position of upper doors
+    public static final double yPosLowerDoors = 930.0;    // starting Y-position of lower doors
+    public static final double yDestUpperDoors = 153.0;   // destination Y-position of upper doors
+    public static final double yDestLowerDoors = 554.0;   // destination Y-position of lower doors
+    public static final int positionY = -623;             // waiting Y-position of doors
 
     public static boolean test = true;
     static Stage classStage = new Stage();
@@ -85,32 +88,17 @@ public class SecurityDoors extends Application {
         gc.setFill(Color.BLACK);
 
         //----------------------------------Security-Doors------------------------------------------
-        Rectangle door1 = new Rectangle(positionX,positionY,doorsWidth,doorsHeight);   // door1 LeftUp
-        Rectangle door2 = new Rectangle(positionX,positionY,doorsWidth,doorsHeight);   // door2 RightUp
-        Rectangle door3 = new Rectangle(positionX,positionY,doorsWidth,doorsHeight);   // door3 LeftDown
-        Rectangle door4 = new Rectangle(positionX,positionY,doorsWidth,doorsHeight);   // door4 RightDown
+        Rectangle door1 = new Rectangle(xPosLeftDoors, positionY, doorsWidth, doorsHeight);     // door1 LeftUp
+        Rectangle door2 = new Rectangle(xPosRightDoors, positionY, doorsWidth, doorsHeight);    // door2 RightUp
+        Rectangle door3 = new Rectangle(xPosLeftDoors, positionY, doorsWidth, doorsHeight);     // door3 LeftDown
+        Rectangle door4 = new Rectangle(xPosRightDoors, positionY, doorsWidth, doorsHeight);    // door4 RightDown
 
-        door1.setLayoutX(-100);
-        door2.setLayoutX(-100);
-        door3.setLayoutX(-100);
-        door4.setLayoutX(-100);
+        for (Rectangle allDoors: Arrays.asList(door1,door2,door3,door4)){
+            allDoors.setFill(color);
+            allDoors.setArcHeight(doorCorners);
+            allDoors.setArcWidth(doorCorners);
+        }
 
-        door1.setFill(color);
-        door2.setFill(color);
-        door3.setFill(color);
-        door4.setFill(color);
-
-        door1.setArcWidth(doorCorners);
-        door1.setArcHeight(doorCorners);
-        door2.setArcWidth(doorCorners);
-        door2.setArcHeight(doorCorners);
-        door3.setArcWidth(doorCorners);
-        door3.setArcHeight(doorCorners);
-        door4.setArcWidth(doorCorners);
-        door4.setArcHeight(doorCorners);
-
-        //door?_path  &  door?_pathBack (class: Polyline) -> actual path of doors
-        //door?_pathActivate  &  door?_pathBackActivate (class: PathTransition) -> for methods
         int delay = HomeScreen.heal * 200;
         int period = 10;
         Timer timer = new Timer();
@@ -124,19 +112,23 @@ public class SecurityDoors extends Application {
                     }
                     test = false;
 
-                    Polyline door1_path = new Polyline();
-                    door1_path.getPoints().addAll(360.0, -223.0,
-                            360.0, 153.0);
+                    //door?_path (class: Polyline) -> actual path of doors
+                    //door?_pathActivate (class: PathTransition) -> for methods and to show animation
+                    Polyline door1_path = new Polyline();                       // to create the path ->
+                    door1_path.getPoints().addAll(                              // from start to destination
+                            xPosLeftDoors, yPosUpperDoors,                      // start position of door1
+                            xPosLeftDoors, yDestUpperDoors);                    // destination position of door1
                     PathTransition door1_pathActivate = new PathTransition();
-                    door1_pathActivate.setNode(door1);
-                    door1_pathActivate.setDuration(Duration.seconds(doorTime));
-                    door1_pathActivate.setPath(door1_path);
-                    door1_pathActivate.setCycleCount(cycleCount);
-                    door1_pathActivate.play();
+                    door1_pathActivate.setNode(door1);                          // which door is selected
+                    door1_pathActivate.setDuration(Duration.seconds(doorTime)); // close animation time of door
+                    door1_pathActivate.setPath(door1_path);                     // path of door
+                    door1_pathActivate.setCycleCount(cycleCount);               // cycle of door
+                    door1_pathActivate.play();                                  // show animation
 
                     Polyline door2_path = new Polyline();
-                    door2_path.getPoints().addAll(720.0, -223.0,
-                            720.0, 153.0);
+                    door2_path.getPoints().addAll(
+                            xPosRightDoors, yPosUpperDoors,                      // start position of door2
+                            xPosRightDoors, yDestUpperDoors);                    // destination position of door2
                     PathTransition door2_pathActivate = new PathTransition();
                     door2_pathActivate.setNode(door2);
                     door2_pathActivate.setDuration(Duration.seconds(doorTime));
@@ -145,8 +137,9 @@ public class SecurityDoors extends Application {
                     door2_pathActivate.play();
 
                     Polyline door3_path = new Polyline();
-                    door3_path.getPoints().addAll(360.0, 930.0,
-                            360.0, 554.0);
+                    door3_path.getPoints().addAll(
+                            xPosLeftDoors, yPosLowerDoors,                      // start position of door3
+                            xPosLeftDoors, yDestLowerDoors);                    // destination position of door3
                     PathTransition door3_pathActivate = new PathTransition();
                     door3_pathActivate.setNode(door3);
                     door3_pathActivate.setDuration(Duration.seconds(doorTime));
@@ -155,8 +148,9 @@ public class SecurityDoors extends Application {
                     door3_pathActivate.play();
 
                     Polyline door4_path = new Polyline();
-                    door4_path.getPoints().addAll(720.0, 930.0,
-                            720.0, 554.0);
+                    door4_path.getPoints().addAll(
+                            xPosRightDoors, yPosLowerDoors,                      // start position of door4
+                            xPosRightDoors, yDestLowerDoors);                    // destination position of door4
                     PathTransition door4_pathActivate = new PathTransition();
                     door4_pathActivate.setNode(door4);
                     door4_pathActivate.setDuration(Duration.seconds(doorTime));
@@ -166,49 +160,57 @@ public class SecurityDoors extends Application {
 
 
                     //----------------------Lockdown-Time-And-Open-Doors--------------------------------------------
-                    Timeline time = new Timeline(new KeyFrame(Duration.seconds(lockdownTime), event -> {
 
-                        Polyline door1_pathBack = new Polyline();
-                        door1_pathBack.getPoints().addAll(360.0, 153.0,
-                                360.0, -223.0);
+                    //door?_pathBack (class: Polyline) -> actual path of doors
+                    //door?_pathBackActivate (class: PathTransition) -> for methods and to show animation
+                    Timeline timelineLockdown = new Timeline();
+                    timelineLockdown.getKeyFrames().add(new KeyFrame(Duration.seconds(lockdownTime), event -> {
+
+                        Polyline door1_pathBack = new Polyline();                       // to create the path back ->
+                        door1_pathBack.getPoints().addAll(                              // from destination to start
+                                xPosLeftDoors, yDestUpperDoors,                         // destination position of door1
+                                xPosLeftDoors, yPosUpperDoors);                         // start position of door1
                         PathTransition door1_pathBackActivate = new PathTransition();
-                        door1_pathBackActivate.setNode(door1);
-                        door1_pathBackActivate.setPath(door1_pathBack);
-                        door1_pathBackActivate.setDuration(Duration.seconds(doorTime));
-                        door1_pathBackActivate.setCycleCount(cycleCount);
-                        door1_pathBackActivate.play();
+                        door1_pathBackActivate.setNode(door1);                          // which door is selected
+                        door1_pathBackActivate.setDuration(Duration.seconds(doorTime)); // open animation time of door
+                        door1_pathBackActivate.setPath(door1_pathBack);                 // path back of door
+                        door1_pathBackActivate.setCycleCount(cycleCount);               // cycle of door
+                        door1_pathBackActivate.play();                                  // show animation
 
                         Polyline door2_pathBack = new Polyline();
-                        door2_pathBack.getPoints().addAll(720.0, 153.0,
-                                720.0, -223.0);
+                        door2_pathBack.getPoints().addAll(
+                                xPosRightDoors, yDestUpperDoors,                        // destination position of door2
+                                xPosRightDoors, yPosUpperDoors);                        // start position of door2
                         PathTransition door2_pathBackActivate = new PathTransition();
                         door2_pathBackActivate.setNode(door2);
-                        door2_pathBackActivate.setPath(door2_pathBack);
                         door2_pathBackActivate.setDuration(Duration.seconds(doorTime));
+                        door2_pathBackActivate.setPath(door2_pathBack);
                         door2_pathBackActivate.setCycleCount(cycleCount);
                         door2_pathBackActivate.play();
 
                         Polyline door3_pathBack = new Polyline();
-                        door3_pathBack.getPoints().addAll(360.0, 554.0,
-                                360.0, 930.0);
+                        door3_pathBack.getPoints().addAll(
+                                xPosLeftDoors, yDestLowerDoors,                        // destination position of door3
+                                xPosLeftDoors, yPosLowerDoors);                        // start position of door3
                         PathTransition door3_pathBackActivate = new PathTransition();
                         door3_pathBackActivate.setNode(door3);
-                        door3_pathBackActivate.setPath(door3_pathBack);
                         door3_pathBackActivate.setDuration(Duration.seconds(doorTime));
+                        door3_pathBackActivate.setPath(door3_pathBack);
                         door3_pathBackActivate.setCycleCount(cycleCount);
                         door3_pathBackActivate.play();
 
                         Polyline door4_pathBack = new Polyline();
-                        door4_pathBack.getPoints().addAll(720.0, 554.0,
-                                720.0, 930.0);
+                        door4_pathBack.getPoints().addAll(
+                                xPosRightDoors, yDestLowerDoors,                        // destination position of door4
+                                xPosRightDoors, yPosLowerDoors);                        // start position of door4
                         PathTransition door4_pathBackActivate = new PathTransition();
                         door4_pathBackActivate.setNode(door4);
-                        door4_pathBackActivate.setPath(door4_pathBack);
                         door4_pathBackActivate.setDuration(Duration.seconds(doorTime));
+                        door4_pathBackActivate.setPath(door4_pathBack);
                         door4_pathBackActivate.setCycleCount(cycleCount);
                         door4_pathBackActivate.play();
                     }));
-                    time.play();
+                    timelineLockdown.play();
                 }
             }
         }, delay, period);
