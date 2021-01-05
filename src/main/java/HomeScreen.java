@@ -113,6 +113,7 @@ public class HomeScreen extends Application {
 
         stage.setTitle("Bouncing Balls!");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

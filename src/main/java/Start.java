@@ -71,6 +71,7 @@ public class Start extends Application {
         stage.setTitle("Bouncing Balls!");
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(20), t -> {
 

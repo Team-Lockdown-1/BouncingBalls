@@ -60,8 +60,9 @@ public class SecurityDoors extends Application {
         list.setPrefHeight(50);
         list.setPrefWidth(180);
         list.setStyle("-fx-background-color: -fx-background ;" + "-fx-background-insets: 0;");
-
+/*
         final Timeline updateList = new Timeline(
+
                 new KeyFrame(
                         Duration.millis( 1 ),
                         event -> {
@@ -77,6 +78,8 @@ public class SecurityDoors extends Application {
         updateList.setCycleCount( Animation.INDEFINITE );
         updateList.play();
 
+ */
+
           //this code is needed to set the backgroundpicture MFG Mattias
            root.setStyle("-fx-background-image: url('/"+HomeScreen.background+".jpg');");
 //---------------------------Mattas-------------------------------------------------------------------------------------
@@ -86,6 +89,7 @@ public class SecurityDoors extends Application {
         Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
+
 
         //----------------------------------Security-Doors------------------------------------------
         Rectangle door1 = new Rectangle(xPosLeftDoors, positionY, doorsWidth, doorsHeight);     // door1 LeftUp
@@ -243,10 +247,17 @@ public class SecurityDoors extends Application {
         stage.setTitle("Bouncing Balls!");
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(20), t -> {
-
+            //-----------------------------
+            items.clear();
+            items.add("Gesund: " + BouncingBall.healthyBallsInList);
+            items.add("Infiziert: " + BouncingBall.infectedBallsInList);
+            list.getItems().clear();
+            list.getItems().addAll(items);
             gc.clearRect(0, 0, scene.getWidth(), scene.getHeight());
+            //------------------------------
 
             for (BouncingBall ball : balls) {
                 if (ball.isInfected()){
