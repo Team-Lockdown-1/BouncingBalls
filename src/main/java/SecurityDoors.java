@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SecurityDoors extends Application {
     public static int doorTime = 5;                       // all doors -> close/open animation time
@@ -210,14 +212,23 @@ public class SecurityDoors extends Application {
         root.getChildren().addAll(canvas, door1, door2, door3, door4);
 
         //Generate Random Balls
-        //TODO make no Balls spawn on top of eachother
+        List<Integer> allX = new ArrayList<>();
+        List<Integer> allY = new ArrayList<>();
         for (int i = 0; i < HomeScreen.balls; i++){
-            float x = (float) (Math.random() * (HomeScreen.WINDOW_WIDTH - HomeScreen.size*2 - 20)) + HomeScreen.size + 10;
-            float y = (float) (Math.random() * (HomeScreen.WINDOW_HEIGHT - HomeScreen.size*2 - 20)) + HomeScreen.size + 10;
-            float angle = (float) (Math.random() * 360);
-            BouncingBall ball = new BouncingBall(x, y, HomeScreen.speed, angle, HomeScreen.size);
-            balls.add(ball);
+            float x = (int) (Math.random() * (HomeScreen.WINDOW_WIDTH - HomeScreen.size*2 - 20)) + HomeScreen.size + 10;
+            float y = (int) (Math.random() * (HomeScreen.WINDOW_HEIGHT - HomeScreen.size*2 - 20)) + HomeScreen.size + 10;
+            if(!allX.contains(x) && !allY.contains(y)){
+                float angle = (float) (Math.random() * 360);
+                BouncingBall ball = new BouncingBall(x, y, HomeScreen.speed, angle, HomeScreen.size);
+                balls.add(ball);
+                allX.addAll(IntStream.rangeClosed((int)x-HomeScreen.size*2, (int)x+HomeScreen.size*2).boxed().collect(Collectors.toList()));
+                allY.addAll(IntStream.rangeClosed((int)y-HomeScreen.size*2, (int)y+HomeScreen.size*2).boxed().collect(Collectors.toList()));
+            }else{
+                i--;
+            }
         }
+        //all balls infected
+        //balls.stream().forEach( b -> b.setInfected(true));
         balls.get(0).setInfected(true);
         stage.setTitle("Bouncing Balls!");
         stage.setScene(scene);
@@ -257,27 +268,46 @@ public class SecurityDoors extends Application {
                 if (ball.getY() <= 1 || ball.getY()+ball.getRadius()*2 >= canvas.getHeight()) {
                     ball.setVelY(-ball.getVelY());
                 }
+
+                /*
+                //Collision with door1
+                if (ball.getX() <= door1.getX() && ball.getX() >= door1.getX()+door1.getWidth() && ball.getY() <= door1.getY()+door1.getHeight()){
+                    ball.setVelX(-ball.getVelX());
+                }
+
+                System.out.println("Door1: x: " + door1.getX() + " y: " + door1.getY());
+                */
             }
 
-            for (BouncingBall ball : balls) {
-                List<BouncingBall> balls2 = new ArrayList<>(balls);
-                balls2.remove(ball);
-                float x = ball.getX();
-                float y = ball.getY();
-                int r = ball.getRadius();
-
+            for(BouncingBall ball : balls){
                 if(!ball.isCollided()) {
+                    List<BouncingBall> balls2 = new ArrayList<>(balls);
+                    balls2.remove(ball);
+                    float x = ball.getX();
+                    float y = ball.getY();
+                    int r = ball.getRadius();
+                    float velX_ball = ball.getVelX();
+                    float velY_ball = ball.getVelY();
+
                     for (BouncingBall b : balls2) {
-                        if (x + r * 2 >= b.getX() && x - r * 2 <= b.getX() && y + r * 2 >= b.getY() && y - r * 2 <= b.getY()) {
-                            if (Math.abs(y - b.getY()) > Math.abs(x - b.getX())) {
-                                ball.setVelX(-ball.getVelX());
-                            } else {
-                                ball.setVelY(-ball.getVelY());
-                            }
+                        float x2 = b.getX();
+                        float y2 = b.getY();
+                        float velX_other = b.getVelX();
+                        float velY_other = b.getVelY();
+
+                        if (Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2)) <= r*2) {
+
+                            ball.setVelX(velX_other);
+                            ball.setVelY(velY_other);
                             ball.setCollided(true);
+                            b.setVelX(velX_ball);
+                            b.setVelY(velY_ball);
                             b.setCollided(true);
+
                             if(ball.isInfected() || b.isInfected()){
+                                ball.setInfected(true);
                                 ball.onHit();
+                                b.setInfected(true);
                                 b.onHit();
                             }
                         }

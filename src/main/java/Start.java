@@ -17,6 +17,9 @@ import javafx.util.Duration;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.DoubleToIntFunction;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Start extends Application {
 
@@ -41,6 +44,7 @@ public class Start extends Application {
         Canvas canvas = new Canvas(scene.getWidth(), scene.getHeight());
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
+        gc.setStroke(Color.BLUE);
         root.getChildren().addAll(canvas);
 
         //On ESC pressed go back to HomeScreen
@@ -57,13 +61,20 @@ public class Start extends Application {
         });
 
         //Generate Random Balls
-        //TODO make no Balls spawn on top of eachother
+        List<Integer> allX = new ArrayList<>();
+        List<Integer> allY = new ArrayList<>();
         for (int i = 0; i < HomeScreen.balls; i++){
-            float x = (float) (Math.random() * (HomeScreen.WINDOW_WIDTH - HomeScreen.size*2 - 20)) + HomeScreen.size + 10;
-            float y = (float) (Math.random() * (HomeScreen.WINDOW_HEIGHT - HomeScreen.size*2 - 20)) + HomeScreen.size + 10;
-            float angle = (float) (Math.random() * 360);
-            BouncingBall ball = new BouncingBall(x, y, HomeScreen.speed, angle, HomeScreen.size);
-            balls.add(ball);
+            float x = (int) (Math.random() * (HomeScreen.WINDOW_WIDTH - HomeScreen.size*2 - 20)) + HomeScreen.size + 10;
+            float y = (int) (Math.random() * (HomeScreen.WINDOW_HEIGHT - HomeScreen.size*2 - 20)) + HomeScreen.size + 10;
+            if(!allX.contains(x) && !allY.contains(y)){
+                float angle = (float) (Math.random() * 360);
+                BouncingBall ball = new BouncingBall(x, y, HomeScreen.speed, angle, HomeScreen.size);
+                balls.add(ball);
+                allX.addAll(IntStream.rangeClosed((int)x-HomeScreen.size*2, (int)x+HomeScreen.size*2).boxed().collect(Collectors.toList()));
+                allY.addAll(IntStream.rangeClosed((int)y-HomeScreen.size*2, (int)y+HomeScreen.size*2).boxed().collect(Collectors.toList()));
+            }else{
+                i--;
+            }
         }
         balls.get(0).setInfected(true);
         stage.setTitle("Bouncing Balls!");
@@ -84,7 +95,6 @@ public class Start extends Application {
                     gc.fillOval(ball.getX(), ball.getY(), ball.getRadius() * 2, ball.getRadius() * 2);
                 }
 
-
                 ball.setNewPos();
 
                 //If the ball reaches the left or right border make the step negative
@@ -95,27 +105,74 @@ public class Start extends Application {
                 if (ball.getY() <= 1 || ball.getY()+ball.getRadius()*2 >= canvas.getHeight()) {
                     ball.setVelY(-ball.getVelY());
                 }
+
             }
 
-            for (BouncingBall ball : balls) {
-                List<BouncingBall> balls2 = new ArrayList<>(balls);
-                balls2.remove(ball);
-                float x = ball.getX();
-                float y = ball.getY();
-                int r = ball.getRadius();
-
+            for(BouncingBall ball : balls){
                 if(!ball.isCollided()) {
+                    List<BouncingBall> balls2 = new ArrayList<>(balls);
+                    balls2.remove(ball);
+                    float x = ball.getX();
+                    float y = ball.getY();
+                    int r = ball.getRadius();
+                    float velX_ball = ball.getVelX();
+                    float velY_ball = ball.getVelY();
+
                     for (BouncingBall b : balls2) {
-                        if (x + r * 2 >= b.getX() && x - r * 2 <= b.getX() && y + r * 2 >= b.getY() && y - r * 2 <= b.getY()) {
-                            if (Math.abs(y - b.getY()) > Math.abs(x - b.getX())) {
-                                ball.setVelX(-ball.getVelX());
-                            } else {
-                                ball.setVelY(-ball.getVelY());
-                            }
+                        float x2 = b.getX();
+                        float y2 = b.getY();
+                        float velX_other = b.getVelX();
+                        float velY_other = b.getVelY();
+
+                        if (Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2)) <= r*2) {
+
+                            /*
+                            System.out.println("Ball Start x: " + velX_ball+ " | Start y: " + velY_ball);
+                            System.out.println("Other Start x: " + velX_other + " | Start y: " + velY_other);
+
+                            double contactAngle = -Math.atan2(velY_other-velY_ball, velX_other-velX_ball);
+
+                            double velX_ball_rotated = velX_ball * Math.cos(contactAngle) - velY_ball * Math.sin(contactAngle);
+                            double velY_ball_rotated = velX_ball * Math.sin(contactAngle) + velY_ball * Math.cos(contactAngle);
+
+                            double velX_other_rotated = velX_other * Math.cos(contactAngle) - velY_other * Math.sin(contactAngle);
+                            double velY_other_rotated = velX_other * Math.sin(contactAngle) + velY_other * Math.cos(contactAngle);
+
+                            double velX_ball_afterCol = velX_ball_rotated * (1-1)/(1+1) + velX_other_rotated * 2 * 1 / (1+1);
+                            double velY_ball_afterCol = velY_ball_rotated;
+
+                            double velX_other_afterCol = velX_other_rotated * (1-1)/(1+1) + velX_ball_rotated * 2 * 1 / (1+1);
+                            double velY_other_afterCol = velY_other_rotated;
+
+                            double velX_ball_final = velX_ball_afterCol * Math.cos(-contactAngle) - velY_ball_afterCol * Math.sin(-contactAngle);
+                            double velY_ball_final = velX_ball_afterCol * Math.sin(-contactAngle) + velY_ball_afterCol * Math.cos(-contactAngle);
+
+                            double velX_other_final = velX_other_afterCol * Math.cos(-contactAngle) - velY_other_afterCol * Math.sin(-contactAngle);
+                            double velY_other_final = velX_other_afterCol * Math.sin(-contactAngle) + velY_other_afterCol * Math.cos(-contactAngle);
+
+                            System.out.println("Ball Final x: " + velX_ball_final + " | Final y: " + velY_ball_final);
+                            System.out.println("Other Final x: " + velX_other_final + " | Final y: " + velY_other_final);
+
+                            ball.setVelX((float)velX_ball_final);
+                            ball.setVelY((float)velY_ball_final);
                             ball.setCollided(true);
+
+                            b.setVelX((float)velX_other_final);
+                            b.setVelX((float)velY_other_final);
                             b.setCollided(true);
+                            */
+
+                            ball.setVelX(velX_other);
+                            ball.setVelY(velY_other);
+                            ball.setCollided(true);
+                            b.setVelX(velX_ball);
+                            b.setVelY(velY_ball);
+                            b.setCollided(true);
+
                             if(ball.isInfected() || b.isInfected()){
+                                ball.setInfected(true);
                                 ball.onHit();
+                                b.setInfected(true);
                                 b.onHit();
                             }
                         }
@@ -123,12 +180,63 @@ public class Start extends Application {
                 }
             }
 
+            /*
+            for (BouncingBall ball:balls){
+
+                if (!ball.isCollided()) {
+
+                    List<BouncingBall> balls2 = new ArrayList<>(balls);
+                    balls2.remove(ball);
+                    float x = ball.getX();
+                    float y = ball.getY();
+                    int r = ball.getRadius();
+
+                    for (BouncingBall b : balls2) {
+                        float x2 = b.getX();
+                        float y2 = b.getY();
+
+                        if (Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2)) <= r) {
+
+                            double angle_ball = Math.atan(ball.getVelY() / ball.getVelX());
+                            double angle_b = Math.atan(b.getVelY() / b.getVelX());
+                            double angle_contact = Math.acos((x*x2 + y*y2) / ( Math.sqrt(x*x + y*y) * Math.sqrt(x2*x2 + y2*y2) ));
+                            double zähler = Math.cos(angle_b - angle_contact) * Math.sin(angle_contact) + Math.sin(angle_ball - angle_contact) * Math.sin(angle_contact + (Math.PI / 2));
+                            double nenner = Math.cos(angle_b - angle_contact) * Math.cos(angle_contact) + Math.sin(angle_ball - angle_contact) * Math.cos(angle_contact + (Math.PI / 2));
+                            double new_angle_ball = Math.atan(zähler / nenner);
+                            ball.setSpeed(new_angle_ball);
+                            zähler = Math.cos(angle_ball - angle_contact) * Math.sin(angle_contact) + Math.sin(angle_b - angle_contact) * Math.sin(angle_contact + (Math.PI / 2));
+                            nenner = Math.cos(angle_ball - angle_contact) * Math.cos(angle_contact) + Math.sin(angle_b - angle_contact) * Math.cos(angle_contact + (Math.PI / 2));
+                            new_angle_ball = Math.atan(zähler / nenner);
+                            b.setSpeed(new_angle_ball);
+                            ball.setCollided(true);
+                            b.setCollided(true);
+
+                            double beta_ball = Math.atan((y - y2) / (x - x2));
+                            double alpha_ball = Math.atan(ball.getVelX() / ball.getVelY());
+                            double new_angle_ball = Math.PI - alpha_ball - beta_ball;
+                            ball.setSpeedAfterCollision(new_angle_ball);
+                            ball.setCollided(true);
+
+                            double beta_b = Math.atan((y2-y)/(x2-x));
+                            double alpha_b = Math.atan(b.getVelX()/b.getVelY());
+                            double new_angle_b = Math.PI - alpha_b - beta_b;
+                            b.setSpeedAfterCollision(new_angle_b);
+                            b.setCollided(true);
+
+                        }
+
+                    }
+
+                }
+
+            }*/
+
+
             for (BouncingBall ball:balls){
                 ball.setCollided(false);
                 if(ball.isInfected()){
                     ball.genesung();
                 }
-               // System.out.println(ball.getHeal());
                 if(ball.getHeal()<=0){
                     ball.setInfected(false);
                     ball.setHeal(HomeScreen.heal);

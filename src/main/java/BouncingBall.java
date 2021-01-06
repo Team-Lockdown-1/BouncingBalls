@@ -4,6 +4,7 @@ public class BouncingBall {
 
     private float x, y;         // Center of the Ball
     private float velX, velY;   // Speed in x and y direction
+    private int vel;            // set Speed
     private int radius;         // Radius
     private boolean collided;
     private boolean infected = false;
@@ -43,6 +44,7 @@ public class BouncingBall {
     public BouncingBall(float x, float y, int vel, float angle, int radius) {
         this.x = x;
         this.y = y;
+        this.vel = vel;
         velX = (float)(vel * Math.sin(Math.toRadians(angle)));
         velY = (float)(-vel * Math.cos(Math.toRadians(angle)));
         this.radius = radius;
