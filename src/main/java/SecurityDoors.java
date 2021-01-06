@@ -74,7 +74,7 @@ public class SecurityDoors extends Application {
 
           //this code is needed to set the backgroundpicture
            root.setStyle("-fx-background-image: url('/"+HomeScreen.background+".jpg');");
-//---------------------------Mattias-------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------
 
 
         Scene scene = new Scene(root, HomeScreen.WINDOW_WIDTH, HomeScreen.WINDOW_HEIGHT, Color.BLACK);

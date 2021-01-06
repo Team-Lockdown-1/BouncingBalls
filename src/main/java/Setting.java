@@ -88,7 +88,7 @@ public class Setting extends Application {
         RadioButton radiobuttonMedium = new RadioButton("Mittel");
         RadioButton radiobuttonFast = new RadioButton("Schnell");
 
-        //Radio buttons for infi
+        //Radio buttons for infifections
         RadioButton radiobuttonHit1 = new RadioButton("1 Treffer");
         RadioButton radiobuttonHit2 = new RadioButton("2 Treffer");
         RadioButton radiobuttonHit3 = new RadioButton("4 Treffer");
@@ -112,7 +112,7 @@ public class Setting extends Application {
             HBoxSpeed.getChildren().add(button);
         }
 
-        //add radio button for infi
+        //add radio button for infifections
         for (RadioButton button : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
             HBoxInfected.getChildren().add(button);
         }

@@ -2,9 +2,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
@@ -37,7 +40,27 @@ public class Start extends Application {
         //Make the Scene and the Canvas
         Pane root = new Pane();
 
-          //this code is needed to set the backgroundpicture MFG Mattias
+        //Observerable list, is needed to display in realtime
+        ObservableList items = FXCollections.observableArrayList();
+        //healthy balls
+        items.add("Gesund: " + BouncingBall.healthyBallsInList);
+        //infected balls
+        items.add("Infiziert: " + BouncingBall.infectedBallsInList);
+        //creating a listview
+        ListView list = new ListView();
+        //put the observerable list into the listview, to display it on the screen
+        list.getItems().addAll(items);
+        root.getChildren().add(list);
+        //set height & Width for the list
+        list.setPrefHeight(50);
+        list.setPrefWidth(180);
+        list.setStyle("-fx-background-color: -fx-background ;" + "-fx-background-insets: 0;");
+
+        //this code is needed to set the backgroundpicture
+        root.setStyle("-fx-background-image: url('/"+HomeScreen.background+".jpg');");
+//----------------------------------------------------------------------------------------------------------------
+
+          //this code is needed to set the backgroundpicture
            root.setStyle("-fx-background-image: url('/"+HomeScreen.background+".jpg');");
 
         Scene scene = new Scene(root, HomeScreen.WINDOW_WIDTH, HomeScreen.WINDOW_HEIGHT, Color.BLACK);
@@ -46,19 +69,6 @@ public class Start extends Application {
         gc.setFill(Color.BLACK);
         gc.setStroke(Color.BLUE);
         root.getChildren().addAll(canvas);
-
-        //On ESC pressed go back to HomeScreen
-        scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {
-                System.out.println("Enter Pressed");
-                HomeScreen home = new HomeScreen();
-                try {
-                    home.start(Start.classStage);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
         //Generate Random Balls
         List<Integer> allX = new ArrayList<>();
@@ -83,6 +93,16 @@ public class Start extends Application {
         stage.setResizable(false);
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(20), t -> {
+            //clear observerable list
+            items.clear();
+            //load in new number of healthy balls
+            items.add("Gesund: " + BouncingBall.healthyBallsInList);
+            //load in new number of infected balls
+            items.add("Infiziert: " + BouncingBall.infectedBallsInList);
+            //clear list
+            list.getItems().clear();
+            //load everything in the observerable list
+            list.getItems().addAll(items);
 
             gc.clearRect(0, 0, scene.getWidth(), scene.getHeight());
 
@@ -241,6 +261,14 @@ public class Start extends Application {
                     ball.setInfected(false);
                     ball.setHeal(HomeScreen.heal);
                 }
+                //this method updates the infected list
+                if(ball.isInfected() && ball.hasNotBeenInfectedOnce){
+                    BouncingBall.infectedCounter(ball);
+                }
+                //this method updates the healthy list
+                if(!ball.isInfected() && !ball.hasNotBeenInfectedOnce && ball.hasBeenHealed){
+                    BouncingBall.regenerationCounter(ball);
+                }
             }
 
 
@@ -248,7 +276,22 @@ public class Start extends Application {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-
+//On ESC pressed go back to HomeScreen
+        list.setOnKeyPressed(event -> {
+            timeline.stop();
+            //close the scene
+            Stage thisStage = (Stage) list.getScene().getWindow();
+            thisStage.close();
+            if (event.getCode() == KeyCode.ESCAPE) {
+                //open new scene
+                HomeScreen home = new HomeScreen();
+                try {
+                    home.start(Start.classStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 }
