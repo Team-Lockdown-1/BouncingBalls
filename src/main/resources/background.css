@@ -1,0 +1,8 @@
+/*
+The size and the image of the background were set
+
+ */
+.bodybg {
+    -fx-background-image: url("bgvienna.jpg");
+    -fx-background-size: 100%, 100%;
+}
