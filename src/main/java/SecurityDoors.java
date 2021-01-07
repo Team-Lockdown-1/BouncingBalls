@@ -82,7 +82,6 @@ public class SecurityDoors extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
 
-
         //----------------------------------Security-Doors---------------------------------------------------------------
         Rectangle door1 = new Rectangle(xPosLeftDoors, positionY, doorsWidth, doorsHeight);     // door1 LeftUp
         Rectangle door2 = new Rectangle(xPosRightDoors, positionY, doorsWidth, doorsHeight);    // door2 RightUp

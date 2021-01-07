@@ -1,126 +1,128 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class HomeScreen extends Application {
-    //Settings can change the value of balls variable, which changes the amount of balls in the game
+
+    //Settings can change the value of balls, which changes the amount of balls in the game
     public static int balls = 20;
     public static int size = 10;
-    //Settings can change the value of speed variable, which changes the speed of the balls in the game
-    public static int speed = 6;
-    //Settings can change the value of hits variable, which changes the infection rate
+    //Settings can change the value of speed, which changes the speed of the balls in the game
+    public static int speed = 5;
+    //Settings can change the value of hits, which changes the infection rate
     public static int hits = 1;
-    //Settings can change the value of heal variable, which changes the time the balls need to be healty again
+    //Settings can change the value of heal, which changes the time the balls need to be healty again
     public static int heal = 30;
     //Settings can change the value of security_doors, which sets security doors on/off
-    public static boolean security_doors = true; //TODO in die settings geben
-    //Settings can change the value of the background variable, which changes the background of the game
+    public static boolean security_doors = false;
+    //Settings can change the value of the background, which changes the background of the game
     public static String background = "amsterdam";
     public static final int WINDOW_WIDTH = 1080;
     public static final int WINDOW_HEIGHT = 720;
     static Stage classStage = new Stage();
 
-    public static void setSecurity_doors(String x){
-        if (x.equals("yes")) {
-            security_doors = true;
-        }else{
-            security_doors = false;
-        }
-    }
-
-    public static void setHeal(int x){
-        heal = x;
-    }
-
-    public static void setBalls(int x){
-        balls = x;
-    }
-    public static void setSpeed(String x){
-        if(x.equals("Langsam")){
-            speed = 3;
-        }else if(x.equals("Mittel")){
-            speed = 6;
-        }else{
-            speed = 9;
-        }
-    }
-    public static String getSpeed(){
-        if(speed == 3){
-            return "Langsam";
-        }else if(speed == 6){
-            return "Mittel";
-        }else{
-            return "Schnell";
-        }
-    }
-    public static void setHits(int x){
-        hits = x;
-    }
-    public static void setBackground(String x){
-        background = x;
-    }
-
+    /*
+     Launches the HomeScreen class and thus the HomeScreen
+     The HomeScreen inherits from the JavaFX Application class
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /*
+    This start methode contains some Settings and initializes the HomeScreen
+     */
     @Override
-    public void start(Stage stage) throws Exception {
-        classStage = stage;
-        Pane root = new Pane();
-        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT, Color.BLACK);
-        Button start = new Button("Start");
-        Button setting = new Button("Settings");
-        start.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Start balls = new Start();
-                SecurityDoors doors = new SecurityDoors();
-                //infected list will be set to default value
-                BouncingBall.resetList();
-                try {
-                    if(security_doors){
-                        doors.start(SecurityDoors.classStage);
-                    } else {
-                        balls.start(Start.classStage);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                Stage stage1 = (Stage) start.getScene().getWindow();
-                stage1.close();
-            }
-        });
-        setting.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //create a new stage
-                Stage settingScreen = Setting.getStage();
-                //load HBOX from Settings
-                HBox interfaceFromSetting = Setting.getHBox();
-                //create a scene
-                Scene secondScene = new Scene(interfaceFromSetting,800,600);
-                settingScreen.setScene(secondScene);
-                settingScreen.setResizable(false);
-                //open new window with settings
-                settingScreen.show();
-            }
-        });
-
-        root.getChildren().add(start);
-        setting.setTranslateX(50);
-        root.getChildren().add(setting);
-
-        stage.setTitle("Bouncing Balls!");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+    public void start(Stage primaryStage) throws Exception {
+        classStage = primaryStage;
+        // FXMLLoader loads the JavaFX fxml file
+        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+        classStage.setTitle("Bouncing Balls");
+        classStage.setResizable(false);
+        // Sets a new scene with the loaded SceneBuilder file. This has a fixed size
+        classStage.setScene(new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT));
+        classStage.show();
     }
 
+    public static void setSecurity_doors(String x) {
+        security_doors = x.equals("yes");
+    }
+
+    public static void setHeal(int x) {
+        heal = x;
+    }
+
+    public static void setBalls(int x) {
+        balls = x;
+    }
+
+    public static void setSpeed(String x) {
+        if (x.equals("Langsam")) {
+            speed = 4;
+        } else if (x.equals("Mittel")) {
+            speed = 5;
+        } else {
+            speed = 6;
+        }
+    }
+
+    public static String getSpeed() {
+        if (speed == 4) {
+            return "Langsam";
+        } else if (speed == 5) {
+            return "Mittel";
+        } else {
+            return "Schnell";
+        }
+    }
+
+    public static void setHits(int x) {
+        hits = x;
+    }
+
+    public static void setBackground(String x) {
+        background = x;
+    }
+
+    /*
+    The clickedStart Method is an onAction event in Scene Builder
+    The HomeScreen.java class was set as the HomeScreen class in Scene Builder
+    The sourcecode of the Start Class was started here
+     */
+    public void clickedStart() {
+        Start balls = new Start();
+        SecurityDoors doors = new SecurityDoors();
+        // Tries to start the simulation and if an error occurs, it prints out the error
+        try {
+            // Check if security_doors is true and starts the proper simulation
+            if (security_doors) {
+                doors.start(SecurityDoors.classStage);
+            } else {
+                balls.start(Start.classStage);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Hides the HomeScreen
+        classStage.hide();
+    }
+
+    /*
+    The clickedSettings Method is an onAction event in Scene Builder
+    The sourcecode of the Settings Class was started here
+     */
+    public void clickedSettings() {
+        // Gets the scene from the settings
+        Stage settingScreen = Setting.getStage();
+        // Gets the interface of the settings
+        HBox interfaceFromSetting = Setting.getHBox();
+        // Creates a new scene with the interface of the settings with size 800x600
+        Scene secondScene = new Scene(interfaceFromSetting, 800, 600);
+        // Sets the settings scene and shows the settings screen
+        settingScreen.setScene(secondScene);
+        settingScreen.show();
+    }
 }

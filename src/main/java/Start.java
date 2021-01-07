@@ -128,6 +128,7 @@ public class Start extends Application {
 
             }
 
+            //Collisions with other balls
             for(BouncingBall ball : balls){
                 if(!ball.isCollided()) {
                     List<BouncingBall> balls2 = new ArrayList<>(balls);
@@ -146,7 +147,7 @@ public class Start extends Application {
 
                         if (Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2)) <= r*2) {
 
-                            /*
+                            /* old collision vektor calculating
                             System.out.println("Ball Start x: " + velX_ball+ " | Start y: " + velY_ball);
                             System.out.println("Other Start x: " + velX_other + " | Start y: " + velY_other);
 
