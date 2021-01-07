@@ -287,7 +287,8 @@ public class Start extends Application {
                 //open new scene
                 HomeScreen home = new HomeScreen();
                 try {
-                    home.start(Start.classStage);
+                    //home.start(Start.classStage);
+                    HomeScreen.classStage.show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

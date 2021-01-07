@@ -93,8 +93,10 @@ public class HomeScreen extends Application {
     The sourcecode of the Start Class was started here
      */
     public void clickedStart() {
+        System.out.println("ausgefuhrt");
         Start balls = new Start();
         SecurityDoors doors = new SecurityDoors();
+        BouncingBall.resetList();
         // Tries to start the simulation and if an error occurs, it prints out the error
         try {
             // Check if security_doors is true and starts the proper simulation
@@ -107,7 +109,7 @@ public class HomeScreen extends Application {
             e.printStackTrace();
         }
         // Hides the HomeScreen
-        classStage.hide();
+        HomeScreen.classStage.hide();
     }
 
     /*
