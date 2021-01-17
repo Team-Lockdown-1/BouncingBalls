@@ -21,35 +21,37 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class SecurityDoors extends Application {
-    public static int doorTime = 5;                       // all doors -> close/open animation time
-    public static final int cycleCount = 1;               // cycle of all doors; don't change -> else: animation problems
-    public static int lockdownTime = HomeScreen.heal;     // time of lockdown (includes close animation time of doors)
-    public static int doorCorners = 15;                   // doorCorners > 0 -> for round corners
-    public static Color color = Color.STEELBLUE;          // color of doors
-    public static double doorsWidth = 40.0;               // width of doors
-    public static final double doorsHeight = 400.0;       // if changed -> merging of doors or on wrong positions
-    public static double xPosLeftDoors = 360.0;           // starting X-position of left doors
-    public static double xPosRightDoors = 720.0;          // starting X-position of right doors
-    public static final double yPosUpperDoors = -223.0;   // starting Y-position of upper doors
-    public static final double yPosLowerDoors = 930.0;    // starting Y-position of lower doors
-    public static final double yDestUpperDoors = 153.0;   // destination Y-position of upper doors
-    public static final double yDestLowerDoors = 554.0;   // destination Y-position of lower doors
+    private static int doorTime = 5;                       // all doors -> close/open animation time
+    private static final int cycleCount = 1;               // cycle of all doors; don't change -> else: animation problems
+    private static int lockdownTime = HomeScreen.heal;     // time of lockdown (includes close animation time of doors)
+    private static int doorCorners = 15;                   // doorCorners > 0 -> for round corners
+    private static Color color = Color.STEELBLUE;          // color of doors
+    private static double doorsWidth = 40.0;               // width of doors
+    private static final double doorsHeight = 400.0;       // if changed -> merging of doors or on wrong positions
+    private static double xPosLeftDoors = 360.0;           // starting X-position of left doors
+    private static double xPosRightDoors = 720.0;          // starting X-position of right doors
+    private static final double yPosUpperDoors = -223.0;   // starting Y-position of upper doors
+    private static final double yPosLowerDoors = 930.0;    // starting Y-position of lower doors
+    private static final double yDestUpperDoors = 153.0;   // destination Y-position of upper doors
+    private static final double yDestLowerDoors = 554.0;   // destination Y-position of lower doors
 
     // waiting Y-position of doors | if variable is not used -> doors will spawn in the scene before animation starts
-    public static final double positionY = -500.0;
+    private static final double positionY = -500.0;
 
     // infected balls > healthy ball -> delay time: when doors should react and start the closing animation; still buggy
-    public static final int delay = 1000;
-    public static final int period = 10;                  // don't change -> else: animation and starting problems
+    private static final int delay = 1000;
+    private static final int period = 10;                  // don't change -> else: animation and starting problems
 
-    public static boolean test = true;
+    private static boolean interruptDoors = true;
     static Stage classStage = new Stage();
 
     private List<BouncingBall> balls = new ArrayList<>();
-
+/*
     public static void main(String[] args) {
         launch(args);
     }
+
+ */
     @Override
     public void start(Stage stage) throws Exception {
         classStage = stage;
@@ -100,10 +102,10 @@ public class SecurityDoors extends Application {
             public void run()
             {
                 if(BouncingBall.healthyBallsInList < HomeScreen.balls/2){
-                    if(!test){
+                    if(!interruptDoors){
                         timer.cancel();
                     }
-                    test = false;
+                    interruptDoors = false;
 
                     //door?_path (class: Polyline) -> actual path of doors
                     //door?_pathActivate (class: PathTransition) -> for methods and to show animation
@@ -342,15 +344,16 @@ public class SecurityDoors extends Application {
 
         //On ESC pressed go back to HomeScreen
         list.setOnKeyPressed(event -> {
-            timeline.stop();
-            //close the scene
-            Stage thisStage = (Stage) list.getScene().getWindow();
-            thisStage.close();
             if (event.getCode() == KeyCode.ESCAPE) {
+                timeline.stop();
+                //close the scene
+                Stage thisStage = (Stage) list.getScene().getWindow();
+                thisStage.close();
                 //open new scene
-                HomeScreen home = new HomeScreen();
+                //HomeScreen home = new HomeScreen();
                 try {
-                    home.start(Start.classStage);
+                    //home.start(Start.classStage);
+                    HomeScreen.classStage.show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -30,9 +30,11 @@ public class Start extends Application {
 
     private List<BouncingBall> balls = new ArrayList<>();
 
-    public static void main(String[] args) {
+  /* public static void main(String[] args) {
         launch(args);
     }
+
+   */
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -279,13 +281,14 @@ public class Start extends Application {
 
 //On ESC pressed go back to HomeScreen
         list.setOnKeyPressed(event -> {
-            timeline.stop();
-            //close the scene
-            Stage thisStage = (Stage) list.getScene().getWindow();
-            thisStage.close();
+
             if (event.getCode() == KeyCode.ESCAPE) {
+                timeline.stop();
+                //close the scene
+                Stage thisStage = (Stage) list.getScene().getWindow();
+                thisStage.close();
                 //open new scene
-                HomeScreen home = new HomeScreen();
+               // HomeScreen home = new HomeScreen();
                 try {
                     //home.start(Start.classStage);
                     HomeScreen.classStage.show();

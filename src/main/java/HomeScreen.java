@@ -8,29 +8,32 @@ import javafx.stage.Stage;
 public class HomeScreen extends Application {
 
     //Settings can change the value of balls, which changes the amount of balls in the game
-    public static int balls = 20;
-    public static int size = 10;
+    protected static int balls = 20;
+    protected static int size = 10;
     //Settings can change the value of speed, which changes the speed of the balls in the game
-    public static int speed = 5;
+    protected static int speed = 5;
     //Settings can change the value of hits, which changes the infection rate
-    public static int hits = 1;
+    protected static int hits = 1;
     //Settings can change the value of heal, which changes the time the balls need to be healty again
-    public static int heal = 30;
+    protected static int heal = 30;
     //Settings can change the value of security_doors, which sets security doors on/off
-    public static boolean security_doors = false;
+    protected static boolean security_doors = false;
     //Settings can change the value of the background, which changes the background of the game
-    public static String background = "amsterdam";
-    public static final int WINDOW_WIDTH = 1080;
-    public static final int WINDOW_HEIGHT = 720;
+    protected static String background = "amsterdam";
+    protected static final int WINDOW_WIDTH = 1080;
+    protected static final int WINDOW_HEIGHT = 720;
     static Stage classStage = new Stage();
 
     /*
      Launches the HomeScreen class and thus the HomeScreen
      The HomeScreen inherits from the JavaFX Application class
      */
+    /*
     public static void main(String[] args) {
         launch(args);
     }
+
+     */
 
     /*
     This start methode contains some Settings and initializes the HomeScreen
@@ -118,7 +121,7 @@ public class HomeScreen extends Application {
      */
     public void clickedSettings() {
         // Gets the scene from the settings
-        Stage settingScreen = Setting.getStage();
+        Stage settingScreen = new Stage();
         // Gets the interface of the settings
         HBox interfaceFromSetting = Setting.getHBox();
         // Creates a new scene with the interface of the settings with size 800x600

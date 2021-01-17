@@ -11,11 +11,11 @@ public class BouncingBall {
     private int hits = HomeScreen.hits;
     private float heal = HomeScreen.heal;
     //variable and methods for the list----------------
-    public static int infectedBallsInList; //infected balls list number
-    public static int healthyBallsInList = HomeScreen.balls; //healthy balls list number
+    protected static int infectedBallsInList; //infected balls list number
+    protected static int healthyBallsInList = HomeScreen.balls; //healthy balls list number
     //this booleans are important, otherwise it would be conuted as infected if 2 infected balls collide
-    public boolean hasNotBeenInfectedOnce = true; //has been infected, yes or no. important.
-    public boolean hasBeenHealed = true; //has been healed, yes or no. important
+    protected boolean hasNotBeenInfectedOnce = true; //has been infected, yes or no. important.
+    protected boolean hasBeenHealed = true; //has been healed, yes or no. important
 
     //increases the number of infected and decreases the number of healthy balls
     public static void infectedCounter(BouncingBall ball){

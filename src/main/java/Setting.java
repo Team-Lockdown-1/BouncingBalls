@@ -16,14 +16,17 @@ import java.util.Arrays;
 
 
 //scene resolution has to be 800x600
-public class Setting extends Application {
-    private static Stage guiStage;
+public class Setting{
+   //private static Stage guiStage;
 
     //hands over the  guiStage to the HomeScreen class
+    /*
     public static Stage getStage() {
         Stage guiStage = new Stage();
         return guiStage;
     }
+
+     */
 
     //getHBox() is the main interface for the Settings screen
     public static HBox getHBox() {
@@ -339,9 +342,11 @@ public class Setting extends Application {
         //return
         return mainBox;
     }
-
+/*
     @Override
     public void start(Stage primaryStage) {
         guiStage = primaryStage;
     }
+
+ */
 }
