@@ -29,7 +29,7 @@ import java.util.stream.IntStream;
 public class Start extends Application {
 
     private final int securityDoorWidth = 40;
-    private final int securityDoorHeight = HomeScreen.WINDOW_HEIGHT/2 + 40;
+    private final double securityDoorHeight = 358.5;
 
     static Stage classStage = new Stage();
 
