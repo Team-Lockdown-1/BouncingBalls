@@ -20,11 +20,16 @@ import javafx.util.Duration;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.DoubleToIntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Start extends Application {
+
+    private final int securityDoorWidth = 40;
+    private final int securityDoorHeight = HomeScreen.WINDOW_HEIGHT/2 + 40;
 
     static Stage classStage = new Stage();
 
@@ -72,6 +77,21 @@ public class Start extends Application {
         gc.setStroke(Color.BLUE);
         root.getChildren().addAll(canvas);
 
+        // Generate The Doors
+        List<Rectangle> doors = new ArrayList<>();
+        Rectangle door1 = new Rectangle(HomeScreen.WINDOW_WIDTH/3, -securityDoorHeight, securityDoorWidth, securityDoorHeight);
+        doors.add(door1);
+        Rectangle door2 = new Rectangle(HomeScreen.WINDOW_WIDTH/3*2, -securityDoorHeight, securityDoorWidth, securityDoorHeight);
+        doors.add(door2);
+        Rectangle door3 = new Rectangle(HomeScreen.WINDOW_WIDTH/3, canvas.getHeight(), securityDoorWidth, securityDoorHeight+20);
+        doors.add(door3);
+        Rectangle door4 = new Rectangle(HomeScreen.WINDOW_WIDTH/3*2, canvas.getHeight(), securityDoorWidth, securityDoorHeight+20);
+        doors.add(door4);
+        AtomicBoolean timer = new AtomicBoolean(false); // threadsave -> no deadlock
+        AtomicBoolean timer2 = new AtomicBoolean(false);
+        AtomicReference<Float> step = new AtomicReference<>((float) securityDoorHeight/250);
+        AtomicReference<Float> stop = new AtomicReference<>((float) securityDoorHeight);
+
         //Generate Random Balls
         List<Integer> allX = new ArrayList<>();
         List<Integer> allY = new ArrayList<>();
@@ -112,8 +132,8 @@ public class Start extends Application {
                 if (ball.isInfected()){
                     gc.setFill(Color.GREEN);
                     gc.fillOval(ball.getX(), ball.getY(), ball.getRadius() * 2, ball.getRadius() * 2);
-                    gc.setFill(Color.BLACK);
                 }else {
+                    gc.setFill(Color.BLACK);
                     gc.fillOval(ball.getX(), ball.getY(), ball.getRadius() * 2, ball.getRadius() * 2);
                 }
 
@@ -128,6 +148,49 @@ public class Start extends Application {
                     ball.setVelY(-ball.getVelY());
                 }
 
+            }
+
+            //Draw Security Doors
+            if (HomeScreen.security_doors){
+                gc.setFill(Color.STEELBLUE);
+                for(Rectangle door : doors){
+                    gc.fillRect(door.getX(), door.getY(), door.getWidth(), door.getHeight());
+                }
+                if(BouncingBall.infectedBallsInList >= HomeScreen.balls/2 && !timer.get() && !timer2.get() && doors.get(0).getY() < -securityDoorHeight+100) {
+                    System.out.println("Set Timer");
+                    timer.set(true);
+                } else if(BouncingBall.healthyBallsInList >= BouncingBall.infectedBallsInList && !timer.get() && !timer2.get() && doors.get(0).getY() > -securityDoorHeight+100) {
+                    System.out.println("Set Timer2");
+                    timer2.set(true);
+                }
+                if(timer.get()){
+                    if( stop.get() <= 0 ){
+                        timer.set(false);
+                        stop.set((float) securityDoorHeight);
+                    }
+                    for(Rectangle door : doors){
+                        if (door.getY()<=0){
+                            door.setY(door.getY() + step.get());
+                        }else {
+                            door.setY(door.getY() - step.get());
+                        }
+                    }
+                    stop.set(stop.get()-step.get());
+                    //System.out.println(stop.get());
+                } else if (timer2.get()){
+                    if( stop.get() <= 0 ){
+                        timer2.set(false);
+                        stop.set((float) securityDoorHeight);
+                    }
+                    for(Rectangle door : doors){
+                        if (door.getY()<=canvas.getHeight()/4){
+                            door.setY(door.getY() - step.get());
+                        }else {
+                            door.setY(door.getY() + step.get());
+                        }
+                    }
+                    stop.set(stop.get()-step.get());
+                }
             }
 
             //Collisions with other balls
@@ -254,6 +317,20 @@ public class Start extends Application {
 
             }*/
 
+            //Collision with doors
+            for(BouncingBall ball : balls){
+                float x = ball.getX();
+                float y = ball.getY();
+                int r = ball.getRadius();
+                //Collision with doors
+                for (Rectangle door : doors){
+                    if ( x+r*2 > door.getX() && x < door.getX()+door.getWidth() && y < door.getY()+securityDoorHeight && y > door.getY() ){
+                        //System.out.println("Door col");
+                        ball.setVelX(-ball.getVelX());
+                    }
+                }
+            }
+
 
             for (BouncingBall ball:balls){
                 ball.setCollided(false);
@@ -296,6 +373,12 @@ public class Start extends Application {
                     e.printStackTrace();
                 }
             }
+
+            // ENTER -> all balls infected
+            if(event.getCode() == KeyCode.ENTER){
+                balls.stream().forEach( b -> b.setInfected(true));
+            }
+
         });
 
     }

@@ -98,16 +98,11 @@ public class HomeScreen extends Application {
     public void clickedStart() {
         System.out.println("ausgefuhrt");
         Start balls = new Start();
-        SecurityDoors doors = new SecurityDoors();
         BouncingBall.resetList();
         // Tries to start the simulation and if an error occurs, it prints out the error
         try {
-            // Check if security_doors is true and starts the proper simulation
-            if (security_doors) {
-                doors.start(SecurityDoors.classStage);
-            } else {
                 balls.start(Start.classStage);
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
