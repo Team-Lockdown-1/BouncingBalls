@@ -15,7 +15,7 @@ public class HomeScreen extends Application {
     //Settings can change the value of hits, which changes the infection rate
     protected static int hits = 1;
     //Settings can change the value of heal, which changes the time the balls need to be healty again
-    protected static int heal = 30;
+    protected static int heal = 40;
     //Settings can change the value of security_doors, which sets security doors on/off
     protected static boolean security_doors = false;
     //Settings can change the value of the background, which changes the background of the game
@@ -81,6 +81,24 @@ public class HomeScreen extends Application {
             return "Schnell";
         }
     }
+    public static int getRegeneration(){
+        if(heal == 40){
+           return 10;
+        }else if(heal == 80){
+            return 20;
+        }else{
+            return 30;
+        }
+    }
+    public static void setRegeneration(int x){
+        if(x == 10){
+            heal = 40;
+        }else if(x == 20){
+            heal = 80;
+        }else{
+            heal = 120;
+        }
+    }
 
     public static void setHits(int x) {
         hits = x;
@@ -124,5 +142,7 @@ public class HomeScreen extends Application {
         // Sets the settings scene and shows the settings screen
         settingScreen.setScene(secondScene);
         settingScreen.show();
+
+
     }
 }

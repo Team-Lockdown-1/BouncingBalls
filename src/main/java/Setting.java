@@ -62,19 +62,19 @@ public class Setting{
         Label headingSettings = new Label("Settings");
         Label labelNumberOfBalls = new Label("Anzahl der Baelle");
         Label labelGeschwindigkeit = new Label("Geschwindigkeit");
-        Label labelInfected = new Label("Chance zum infizieren");
+        //Label labelInfected = new Label("Chance zum infizieren");
         Label labelHealing = new Label("Heilung");
         Label labelSecurityDoors = new Label("Security Doors");
 
         //Font size - der ganze Label Text wird größer und fett geschrieben, für die lesbarkeit
         headingSettings.setStyle("-fx-font-size: 20;" + "-fx-font-weight: bold");
-        for (Label x : Arrays.asList(labelNumberOfBalls, labelGeschwindigkeit, labelInfected, labelHealing, labelSecurityDoors)) {
+        for (Label x : Arrays.asList(labelNumberOfBalls, labelGeschwindigkeit, labelHealing, labelSecurityDoors)) {
             x.setStyle("-fx-font-weight: bold");
         }
 
 
         //add radio buttons to the rightMianBoxVertical
-        for (Region region : Arrays.asList(headingSettings, labelNumberOfBalls, HBoxBall, labelGeschwindigkeit, HBoxSpeed, labelInfected, HBoxInfected, labelHealing, HBoxRegeneration, labelSecurityDoors, HBoxSecurityDoors)) {
+        for (Region region : Arrays.asList(headingSettings, labelNumberOfBalls, HBoxBall, labelGeschwindigkeit, HBoxSpeed, HBoxInfected, labelHealing, HBoxRegeneration, labelSecurityDoors, HBoxSecurityDoors)) {
             rightMainBoxVertical.getChildren().add(region);
         }
 
@@ -92,14 +92,17 @@ public class Setting{
         RadioButton radiobuttonFast = new RadioButton("Schnell");
 
         //Radio buttons for infifections
+        /*
         RadioButton radiobuttonHit1 = new RadioButton("1 Treffer");
         RadioButton radiobuttonHit2 = new RadioButton("2 Treffer");
         RadioButton radiobuttonHit3 = new RadioButton("4 Treffer");
 
+
+         */
         //Radio buttons for genesung
+        RadioButton radiobuttonHealing10 = new RadioButton("10");
+        RadioButton radiobuttonHealing20 = new RadioButton("20");
         RadioButton radiobuttonHealing30 = new RadioButton("30");
-        RadioButton radiobuttonHealing60 = new RadioButton("60");
-        RadioButton radiobuttonHealing120 = new RadioButton("120");
 
         //Radio button for security doors
         RadioButton yes = new RadioButton("yes");
@@ -114,14 +117,16 @@ public class Setting{
         for (RadioButton button : Arrays.asList(radiobuttonSlow, radiobuttonMedium, radiobuttonFast)) {
             HBoxSpeed.getChildren().add(button);
         }
-
+/*
         //add radio button for infifections
         for (RadioButton button : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
             HBoxInfected.getChildren().add(button);
         }
 
+ */
+
         //add radio button for healing
-        for (RadioButton button : Arrays.asList(radiobuttonHealing30, radiobuttonHealing60, radiobuttonHealing120)) {
+        for (RadioButton button : Arrays.asList(radiobuttonHealing10, radiobuttonHealing20, radiobuttonHealing30)) {
             HBoxRegeneration.getChildren().add(button);
         }
         //add radio button for Security doors
@@ -145,14 +150,16 @@ public class Setting{
         for (RadioButton button : Arrays.asList(radiobuttonSlow, radiobuttonMedium, radiobuttonFast)) {
             button.setToggleGroup(togglegroupSpeed);
         }
-
+/*
         //add infiziert to the radio button group
         for (RadioButton button : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
             button.setToggleGroup(togglegroupInfected);
         }
 
+ */
+
         //add genesung to the radio button group
-        for (RadioButton button : Arrays.asList(radiobuttonHealing30, radiobuttonHealing60, radiobuttonHealing120)) {
+        for (RadioButton button : Arrays.asList(radiobuttonHealing10, radiobuttonHealing20, radiobuttonHealing30)) {
             button.setToggleGroup(togglegroupHealing);
         }
 
@@ -172,7 +179,7 @@ public class Setting{
 
 
         //change spacing between words and lines.
-        for (HBox hbox : Arrays.asList(HBoxBall, HBoxSpeed, HBoxInfected, HBoxRegeneration, HBoxSecurityDoors)) {
+        for (HBox hbox : Arrays.asList(HBoxBall, HBoxSpeed, HBoxRegeneration, HBoxSecurityDoors)) {
             hbox.setSpacing(10);
             hbox.setPadding(new Insets(5, 5, 15, 5));
         }
@@ -264,6 +271,7 @@ public class Setting{
             }
         }
         //Radiobutton preselection infiziert
+        /*
         for (ToggleButton button : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
             String string = button.getText();
             string = string.substring(0, 1);
@@ -272,9 +280,11 @@ public class Setting{
                 button.setSelected(true);
             }
         }
+
+         */
         //Radiobutton preselection for healing
-        for (ToggleButton button : Arrays.asList(radiobuttonHealing30, radiobuttonHealing60, radiobuttonHealing120)) {
-            if (HomeScreen.heal == Integer.parseInt(button.getText())) {
+        for (ToggleButton button : Arrays.asList(radiobuttonHealing10, radiobuttonHealing20, radiobuttonHealing30)) {
+            if (HomeScreen.getRegeneration() == Integer.parseInt(button.getText())) {
                 button.setSelected(true);
             }
         }
@@ -308,17 +318,17 @@ public class Setting{
                 //get button of the selected Togglegroup
                 RadioButton selectedRadioButtonBaelle = (RadioButton) togglegroupBalls.getSelectedToggle();
                 RadioButton selectedRadioButtonGeschwind = (RadioButton) togglegroupSpeed.getSelectedToggle();
-                RadioButton selectedRadioButtonInfi = (RadioButton) togglegroupInfected.getSelectedToggle();
+               // RadioButton selectedRadioButtonInfi = (RadioButton) togglegroupInfected.getSelectedToggle();
                 RadioButton selectedRadioButtonGenesung = (RadioButton) togglegroupHealing.getSelectedToggle();
                 RadioButton selectedRadioButtonSecurityDoors = (RadioButton) togglegroupSecurityGroup.getSelectedToggle();
 
                 //change variables in HomeScreen
                 HomeScreen.setBalls(Integer.parseInt(selectedRadioButtonBaelle.getText()));
                 HomeScreen.setSpeed(selectedRadioButtonGeschwind.getText());
-                HomeScreen.setHits(Integer.parseInt(selectedRadioButtonInfi.getText().substring(0, 1)));
-                HomeScreen.setHeal(Integer.parseInt(selectedRadioButtonGenesung.getText()));
+               // HomeScreen.setHits(Integer.parseInt(selectedRadioButtonInfi.getText().substring(0, 1)));
+               // HomeScreen.setHeal(Integer.parseInt(selectedRadioButtonGenesung.getText()));
                 HomeScreen.setSecurity_doors(selectedRadioButtonSecurityDoors.getText());
-
+                HomeScreen.setRegeneration(Integer.parseInt(selectedRadioButtonGenesung.getText()));
             }
         });
 
