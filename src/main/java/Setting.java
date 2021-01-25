@@ -37,7 +37,7 @@ public class Setting{
         VBox rightMainBox = new VBox();
         HBox leftMainBoxUpperHalf = new HBox();
         HBox leftMainBoxLowerHalf = new HBox();
-        VBox rightMainBoxVertical = new VBox();
+        VBox mainBoxVertical = new VBox();
         HBox HBoxBall = new HBox();
         HBox HBoxSpeed = new HBox();
         HBox HBoxInfected = new HBox();
@@ -49,13 +49,14 @@ public class Setting{
         mainBox.getChildren().add(rightMainBox);
         leftMainBox.getChildren().add(leftMainBoxUpperHalf);
         leftMainBox.getChildren().add(leftMainBoxLowerHalf);
-        leftMainBoxUpperHalf.getChildren().add(rightMainBoxVertical);
+        leftMainBoxUpperHalf.getChildren().add(mainBoxVertical);
 
         //set the text which is written in the boxes to the position center
-        for (HBox x : Arrays.asList(leftMainBoxLowerHalf, leftMainBoxUpperHalf, HBoxBall, HBoxSpeed, HBoxInfected, HBoxRegeneration, HBoxSecurityDoors)) {
+        for (HBox x : Arrays.asList(leftMainBoxLowerHalf, leftMainBoxUpperHalf, HBoxBall, HBoxSpeed,
+                HBoxInfected, HBoxRegeneration, HBoxSecurityDoors)) {
             x.setAlignment(Pos.CENTER);
         }
-        rightMainBoxVertical.setAlignment(Pos.TOP_CENTER);
+        mainBoxVertical.setAlignment(Pos.TOP_CENTER);
 
 
         //create Lables for the left side of the Setting screen
@@ -74,8 +75,9 @@ public class Setting{
 
 
         //add radio buttons to the rightMianBoxVertical
-        for (Region region : Arrays.asList(headingSettings, labelNumberOfBalls, HBoxBall, labelGeschwindigkeit, HBoxSpeed, HBoxInfected, labelHealing, HBoxRegeneration, labelSecurityDoors, HBoxSecurityDoors)) {
-            rightMainBoxVertical.getChildren().add(region);
+        for (Region region : Arrays.asList(headingSettings, labelNumberOfBalls, HBoxBall, labelGeschwindigkeit,
+                HBoxSpeed, HBoxInfected, labelHealing, HBoxRegeneration, labelSecurityDoors, HBoxSecurityDoors)) {
+            mainBoxVertical.getChildren().add(region);
         }
 
 
@@ -86,19 +88,19 @@ public class Setting{
         RadioButton radiobuttonThirty = new RadioButton("30");
         RadioButton radiobuttonFourty = new RadioButton("40");
 
+        //create ToggleGroups for radio buttons. allows only to select 1 radio button per group
+        ToggleGroup togglegroupBalls = new ToggleGroup();
+        ToggleGroup togglegroupSpeed = new ToggleGroup();
+        ToggleGroup togglegroupInfected = new ToggleGroup();
+        ToggleGroup togglegroupHealing = new ToggleGroup();
+        ToggleGroup togglegroupSecurityGroup = new ToggleGroup();
+
+
         //radio buttons for geschwindigkeit
         RadioButton radiobuttonSlow = new RadioButton("Langsam");
         RadioButton radiobuttonMedium = new RadioButton("Mittel");
         RadioButton radiobuttonFast = new RadioButton("Schnell");
 
-        //Radio buttons for infifections
-        /*
-        RadioButton radiobuttonHit1 = new RadioButton("1 Treffer");
-        RadioButton radiobuttonHit2 = new RadioButton("2 Treffer");
-        RadioButton radiobuttonHit3 = new RadioButton("4 Treffer");
-
-
-         */
         //Radio buttons for genesung
         RadioButton radiobuttonHealing10 = new RadioButton("10");
         RadioButton radiobuttonHealing20 = new RadioButton("20");
@@ -111,67 +113,30 @@ public class Setting{
         //add radio button for balls
         for (RadioButton button : Arrays.asList(radiobuttonTen, radiobuttonTwenty, radiobuttonThirty, radiobuttonFourty)) {
             HBoxBall.getChildren().add(button);
+            button.setToggleGroup(togglegroupBalls);
         }
 
         //add radio button for geschwindigkeit
         for (RadioButton button : Arrays.asList(radiobuttonSlow, radiobuttonMedium, radiobuttonFast)) {
             HBoxSpeed.getChildren().add(button);
+            button.setToggleGroup(togglegroupSpeed);
         }
-/*
-        //add radio button for infifections
-        for (RadioButton button : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
-            HBoxInfected.getChildren().add(button);
-        }
-
- */
 
         //add radio button for healing
         for (RadioButton button : Arrays.asList(radiobuttonHealing10, radiobuttonHealing20, radiobuttonHealing30)) {
             HBoxRegeneration.getChildren().add(button);
-        }
-        //add radio button for Security doors
-        for (RadioButton button : Arrays.asList(yes, no)) {
-            HBoxSecurityDoors.getChildren().add(button);
-        }
-
-        //create ToggleGroups for radio buttons. allows only to select 1 radio button per group
-        ToggleGroup togglegroupBalls = new ToggleGroup();
-        ToggleGroup togglegroupSpeed = new ToggleGroup();
-        ToggleGroup togglegroupInfected = new ToggleGroup();
-        ToggleGroup togglegroupHealing = new ToggleGroup();
-        ToggleGroup togglegroupSecurityGroup = new ToggleGroup();
-
-        //add ball to the radiobutton group
-        for (RadioButton button : Arrays.asList(radiobuttonTen, radiobuttonTwenty, radiobuttonThirty, radiobuttonFourty)) {
-            button.setToggleGroup(togglegroupBalls);
-        }
-
-        //add geschwindigkeit to the radiobutton group
-        for (RadioButton button : Arrays.asList(radiobuttonSlow, radiobuttonMedium, radiobuttonFast)) {
-            button.setToggleGroup(togglegroupSpeed);
-        }
-/*
-        //add infiziert to the radio button group
-        for (RadioButton button : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
-            button.setToggleGroup(togglegroupInfected);
-        }
-
- */
-
-        //add genesung to the radio button group
-        for (RadioButton button : Arrays.asList(radiobuttonHealing10, radiobuttonHealing20, radiobuttonHealing30)) {
             button.setToggleGroup(togglegroupHealing);
         }
 
-        //add security doors to the radio button group
+        //add radio button for Security doors
         for (RadioButton button : Arrays.asList(yes, no)) {
+            HBoxSecurityDoors.getChildren().add(button);
             button.setToggleGroup(togglegroupSecurityGroup);
         }
 
-
         //min/max Height and width for each segment.
-        rightMainBoxVertical.setMinWidth(300);
-        rightMainBoxVertical.setMinHeight(100);
+        mainBoxVertical.setMinWidth(300);
+        mainBoxVertical.setMinHeight(100);
         leftMainBox.setMinWidth(400);
         rightMainBox.setMinWidth(400);
         leftMainBoxUpperHalf.setMinHeight(400);
@@ -187,7 +152,7 @@ public class Setting{
 
 
         //change Border color
-        rightMainBoxVertical.setStyle(
+        mainBoxVertical.setStyle(
                 "-fx-border-style: solid inside;" +
                         "-fx-border-width: 5;" +
                         "-fx-border-color: black;");
@@ -270,18 +235,7 @@ public class Setting{
                 button.setSelected(true);
             }
         }
-        //Radiobutton preselection infiziert
-        /*
-        for (ToggleButton button : Arrays.asList(radiobuttonHit1, radiobuttonHit2, radiobuttonHit3)) {
-            String string = button.getText();
-            string = string.substring(0, 1);
-            int hits = Integer.parseInt(string);
-            if (HomeScreen.hits == hits) {
-                button.setSelected(true);
-            }
-        }
 
-         */
         //Radiobutton preselection for healing
         for (ToggleButton button : Arrays.asList(radiobuttonHealing10, radiobuttonHealing20, radiobuttonHealing30)) {
             if (HomeScreen.getRegeneration() == Integer.parseInt(button.getText())) {
