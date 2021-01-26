@@ -2,14 +2,12 @@
 
  */
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.Arrays;
@@ -17,16 +15,6 @@ import java.util.Arrays;
 
 //scene resolution has to be 800x600
 public class Setting{
-   //private static Stage guiStage;
-
-    //hands over the  guiStage to the HomeScreen class
-    /*
-    public static Stage getStage() {
-        Stage guiStage = new Stage();
-        return guiStage;
-    }
-
-     */
 
     //getHBox() is the main interface for the Settings screen
     public static HBox getHBox() {
@@ -45,10 +33,8 @@ public class Setting{
         HBox HBoxSecurityDoors = new HBox();
 
         //combine the previous created HBox & VBox
-        mainBox.getChildren().add(leftMainBox);
-        mainBox.getChildren().add(rightMainBox);
-        leftMainBox.getChildren().add(leftMainBoxUpperHalf);
-        leftMainBox.getChildren().add(leftMainBoxLowerHalf);
+        mainBox.getChildren().addAll(Arrays.asList(leftMainBox,rightMainBox));
+        leftMainBox.getChildren().addAll(Arrays.asList(leftMainBoxUpperHalf,leftMainBoxLowerHalf));
         leftMainBoxUpperHalf.getChildren().add(mainBoxVertical);
 
         //set the text which is written in the boxes to the position center
@@ -58,12 +44,10 @@ public class Setting{
         }
         mainBoxVertical.setAlignment(Pos.TOP_CENTER);
 
-
         //create Lables for the left side of the Setting screen
         Label headingSettings = new Label("Settings");
         Label labelNumberOfBalls = new Label("Anzahl der Baelle");
         Label labelGeschwindigkeit = new Label("Geschwindigkeit");
-        //Label labelInfected = new Label("Chance zum infizieren");
         Label labelHealing = new Label("Heilung");
         Label labelSecurityDoors = new Label("Security Doors");
 
@@ -73,13 +57,9 @@ public class Setting{
             x.setStyle("-fx-font-weight: bold");
         }
 
-
         //add radio buttons to the rightMianBoxVertical
-        for (Region region : Arrays.asList(headingSettings, labelNumberOfBalls, HBoxBall, labelGeschwindigkeit,
-                HBoxSpeed, HBoxInfected, labelHealing, HBoxRegeneration, labelSecurityDoors, HBoxSecurityDoors)) {
-            mainBoxVertical.getChildren().add(region);
-        }
-
+        mainBoxVertical.getChildren().addAll(Arrays.asList(headingSettings, labelNumberOfBalls, HBoxBall, labelGeschwindigkeit,
+                HBoxSpeed, HBoxInfected, labelHealing, HBoxRegeneration, labelSecurityDoors, HBoxSecurityDoors));
 
         //--------------------Radio Buttons----------------------------------------------------------------------
         //radio buttons for balls
@@ -94,7 +74,6 @@ public class Setting{
         ToggleGroup togglegroupInfected = new ToggleGroup();
         ToggleGroup togglegroupHealing = new ToggleGroup();
         ToggleGroup togglegroupSecurityGroup = new ToggleGroup();
-
 
         //radio buttons for geschwindigkeit
         RadioButton radiobuttonSlow = new RadioButton("Langsam");
@@ -189,9 +168,7 @@ public class Setting{
         HBox thirdHBoxForScenarios = new HBox();
 
         //add the previous created box
-        for (HBox x : Arrays.asList(firstHBoxForScenarios, secondHBoxForScenarios, thirdHBoxForScenarios)) {
-            rightMainBox.getChildren().add(x);
-        }
+        rightMainBox.getChildren().addAll(Arrays.asList(firstHBoxForScenarios, secondHBoxForScenarios, thirdHBoxForScenarios));
 
         //create buttons and add it to the right box
         Button wien = new Button("wien");
@@ -201,12 +178,9 @@ public class Setting{
         Button newyork = new Button("newyork");
         Button platzhalter = new Button("platzhalter");
 
-        firstHBoxForScenarios.getChildren().add(wien);
-        firstHBoxForScenarios.getChildren().add(haus);
-        secondHBoxForScenarios.getChildren().add(venedig);
-        secondHBoxForScenarios.getChildren().add(amsterdam);
-        thirdHBoxForScenarios.getChildren().add(newyork);
-        thirdHBoxForScenarios.getChildren().add(platzhalter);
+        firstHBoxForScenarios.getChildren().addAll(Arrays.asList(wien,haus));
+        secondHBoxForScenarios.getChildren().addAll(Arrays.asList(venedig,amsterdam));
+        thirdHBoxForScenarios.getChildren().addAll(Arrays.asList(newyork,platzhalter));
 
         //change button height and width
         for (Button x : Arrays.asList(wien, haus, venedig, amsterdam, newyork, platzhalter)) {
@@ -272,15 +246,12 @@ public class Setting{
                 //get button of the selected Togglegroup
                 RadioButton selectedRadioButtonBaelle = (RadioButton) togglegroupBalls.getSelectedToggle();
                 RadioButton selectedRadioButtonGeschwind = (RadioButton) togglegroupSpeed.getSelectedToggle();
-               // RadioButton selectedRadioButtonInfi = (RadioButton) togglegroupInfected.getSelectedToggle();
                 RadioButton selectedRadioButtonGenesung = (RadioButton) togglegroupHealing.getSelectedToggle();
                 RadioButton selectedRadioButtonSecurityDoors = (RadioButton) togglegroupSecurityGroup.getSelectedToggle();
 
                 //change variables in HomeScreen
                 HomeScreen.setBalls(Integer.parseInt(selectedRadioButtonBaelle.getText()));
                 HomeScreen.setSpeed(selectedRadioButtonGeschwind.getText());
-               // HomeScreen.setHits(Integer.parseInt(selectedRadioButtonInfi.getText().substring(0, 1)));
-               // HomeScreen.setHeal(Integer.parseInt(selectedRadioButtonGenesung.getText()));
                 HomeScreen.setSecurity_doors(selectedRadioButtonSecurityDoors.getText());
                 HomeScreen.setRegeneration(Integer.parseInt(selectedRadioButtonGenesung.getText()));
             }
@@ -306,11 +277,4 @@ public class Setting{
         //return
         return mainBox;
     }
-/*
-    @Override
-    public void start(Stage primaryStage) {
-        guiStage = primaryStage;
-    }
-
- */
 }
