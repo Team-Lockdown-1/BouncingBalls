@@ -287,10 +287,14 @@ public class Setting{
                 public void handle(ActionEvent event) {
                     //change the style of every other button to black border, if one is clicked
                     for (Button button : Arrays.asList(wien, amsterdam, haus, venedig, newyork, platzhalter)) {
-                        button.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" + "-fx-background-image: url('/" + button.getText() + ".jpg');" + "-fx-text-fill: transparent;" + "-fx-background-size: 150px 150px;");
+                        button.setStyle("-fx-border-color: black; " + "-fx-border-width: 2;" +
+                                "-fx-background-image: url('/" + button.getText() + ".jpg');" +
+                                "-fx-text-fill: transparent;" + "-fx-background-size: 150px 150px;");
                     }
                     //change the border color of the selected button to red
-                    button.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" + "-fx-background-image: url('/" + button.getText() + ".jpg');" + "-fx-text-fill: transparent;" + "-fx-background-size: 150px 150px;");
+                    button.setStyle("-fx-border-color: red; " + "-fx-border-width: 2;" +
+                            "-fx-background-image: url('/" + button.getText() + ".jpg');" +
+                            "-fx-text-fill: transparent;" + "-fx-background-size: 150px 150px;");
                     //change the variable in HomeScreen. is needed to load the background image.
                     HomeScreen.setBackground("" + button.getText());
                 }
