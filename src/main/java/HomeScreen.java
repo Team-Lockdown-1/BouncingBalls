@@ -24,16 +24,6 @@ public class HomeScreen extends Application {
     protected static final int WINDOW_HEIGHT = 720;
     static Stage classStage = new Stage();
 
-    /*
-     Launches the HomeScreen class and thus the HomeScreen
-     The HomeScreen inherits from the JavaFX Application class
-     */
-    /*
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-     */
 
     /*
     This start methode contains some Settings and initializes the HomeScreen
@@ -114,7 +104,6 @@ public class HomeScreen extends Application {
     The sourcecode of the Start Class was started here
      */
     public void clickedStart() {
-        System.out.println("ausgefuhrt");
         Start balls = new Start();
         BouncingBall.resetList();
         // Tries to start the simulation and if an error occurs, it prints out the error
@@ -133,9 +122,9 @@ public class HomeScreen extends Application {
     The sourcecode of the Settings Class was started here
      */
     public void clickedSettings() {
-        // Gets the scene from the settings
+        // Loads the scene from the settings
         Stage settingScreen = new Stage();
-        // Gets the interface of the settings
+        // Loads the interface of the settings
         HBox interfaceFromSetting = Setting.getHBox();
         // Creates a new scene with the interface of the settings with size 800x600
         Scene secondScene = new Scene(interfaceFromSetting, 800, 600);
