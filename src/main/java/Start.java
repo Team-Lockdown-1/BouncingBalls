@@ -154,12 +154,12 @@ public class Start extends Application {
             if (HomeScreen.security_doors){
                 gc.setFill(Color.STEELBLUE);
                 for(Rectangle door : doors){
-                    gc.fillRect(door.getX(), door.getY(), door.getWidth(), door.getHeight());
+                    gc.fillRoundRect(door.getX(), door.getY(), door.getWidth(), door.getHeight(), 20, 20);
                 }
                 if(BouncingBall.infectedBallsInList >= HomeScreen.balls/2 && !timer.get() && !timer2.get() && doors.get(0).getY() < -securityDoorHeight+100) {
                     System.out.println("Set Timer");
                     timer.set(true);
-                } else if(BouncingBall.healthyBallsInList >= BouncingBall.infectedBallsInList && !timer.get() && !timer2.get() && doors.get(0).getY() > -securityDoorHeight+100) {
+                } else if(BouncingBall.healthyBallsInList >= (HomeScreen.balls/4)*3 && !timer.get() && !timer2.get() && doors.get(0).getY() > -securityDoorHeight+100) {
                     System.out.println("Set Timer2");
                     timer2.set(true);
                 }
@@ -377,6 +377,11 @@ public class Start extends Application {
             // ENTER -> all balls infected
             if(event.getCode() == KeyCode.ENTER){
                 balls.stream().forEach( b -> b.setInfected(true));
+            }
+
+            // SPACE -> all balls not infected
+            if(event.getCode() == KeyCode.SPACE){
+                balls.stream().forEach( b -> b.setInfected(false));
             }
 
         });

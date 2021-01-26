@@ -1,7 +1,5 @@
 public class BouncingBall {
 
-    //TODO infections
-
     private float x, y;         // Center of the Ball
     private float velX, velY;   // Speed in x and y direction
     private int vel;            // set Speed
