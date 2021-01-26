@@ -28,19 +28,34 @@ public class Setting{
         VBox mainBoxVertical = new VBox();
         HBox HBoxBall = new HBox();
         HBox HBoxSpeed = new HBox();
-        HBox HBoxInfected = new HBox();
         HBox HBoxRegeneration = new HBox();
         HBox HBoxSecurityDoors = new HBox();
+
+        /**
+         * Für die Praesentation
+         *
+         *         HBox noInfection = new HBox();
+         *         Label uberschrift = new Label("Zum testen");
+         *         RadioButton test1 = new RadioButton("10");
+         *         RadioButton test2 = new RadioButton("20");
+         *         ToggleGroup zusammen = new ToggleGroup();
+         *
+         */
+
+
 
         //combine the previous created HBox & VBox
         mainBox.getChildren().addAll(Arrays.asList(leftMainBox,rightMainBox));
         leftMainBox.getChildren().addAll(Arrays.asList(leftMainBoxUpperHalf,leftMainBoxLowerHalf));
         leftMainBoxUpperHalf.getChildren().add(mainBoxVertical);
 
+        /**
+         * Hier HBox noInfection einfuegen
+         */
         //set the text which is written in the boxes to the position center
-        for (HBox x : Arrays.asList(leftMainBoxLowerHalf, leftMainBoxUpperHalf, HBoxBall, HBoxSpeed,
-                HBoxInfected, HBoxRegeneration, HBoxSecurityDoors)) {
-            x.setAlignment(Pos.CENTER);
+        for (HBox box : Arrays.asList(leftMainBoxLowerHalf, leftMainBoxUpperHalf, HBoxBall,
+                HBoxSpeed, HBoxRegeneration, HBoxSecurityDoors)) {
+            box.setAlignment(Pos.CENTER);
         }
         mainBoxVertical.setAlignment(Pos.TOP_CENTER);
 
@@ -51,15 +66,21 @@ public class Setting{
         Label labelHealing = new Label("Heilung");
         Label labelSecurityDoors = new Label("Security Doors");
 
+        /**
+         * Hier Label uberschrift einfuegen
+         */
         //Font size - der ganze Label Text wird größer und fett geschrieben, für die lesbarkeit
         headingSettings.setStyle("-fx-font-size: 20;" + "-fx-font-weight: bold");
         for (Label x : Arrays.asList(labelNumberOfBalls, labelGeschwindigkeit, labelHealing, labelSecurityDoors)) {
             x.setStyle("-fx-font-weight: bold");
         }
 
+        /**
+         * Hier Label uberschrift und noInfection einfuegen
+         */
         //add radio buttons to the rightMianBoxVertical
-        mainBoxVertical.getChildren().addAll(Arrays.asList(headingSettings, labelNumberOfBalls, HBoxBall, labelGeschwindigkeit,
-                HBoxSpeed, HBoxInfected, labelHealing, HBoxRegeneration, labelSecurityDoors, HBoxSecurityDoors));
+        mainBoxVertical.getChildren().addAll(Arrays.asList(headingSettings, labelNumberOfBalls, HBoxBall,
+                labelGeschwindigkeit, HBoxSpeed, labelHealing, HBoxRegeneration, labelSecurityDoors, HBoxSecurityDoors));
 
         //--------------------Radio Buttons----------------------------------------------------------------------
         //radio buttons for balls
@@ -71,7 +92,6 @@ public class Setting{
         //create ToggleGroups for radio buttons. allows only to select 1 radio button per group
         ToggleGroup togglegroupBalls = new ToggleGroup();
         ToggleGroup togglegroupSpeed = new ToggleGroup();
-        ToggleGroup togglegroupInfected = new ToggleGroup();
         ToggleGroup togglegroupHealing = new ToggleGroup();
         ToggleGroup togglegroupSecurityGroup = new ToggleGroup();
 
@@ -122,6 +142,9 @@ public class Setting{
         leftMainBoxLowerHalf.setMinHeight(180);
 
 
+        /**
+         * Hier noInfection einfuegen
+         */
         //change spacing between words and lines.
         for (HBox hbox : Arrays.asList(HBoxBall, HBoxSpeed, HBoxRegeneration, HBoxSecurityDoors)) {
             hbox.setSpacing(10);

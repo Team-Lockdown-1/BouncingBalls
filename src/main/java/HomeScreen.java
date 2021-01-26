@@ -90,10 +90,6 @@ public class HomeScreen extends Application {
         }
     }
 
-    public static void setHits(int x) {
-        hits = x;
-    }
-
     public static void setBackground(String x) {
         background = x;
     }
